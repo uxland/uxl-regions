@@ -1,4 +1,10 @@
+# \<uxl-regions\>
 
+[![Build Status](https://travis-ci.org/uxland/uxl-redux.svg?branch=master)](https://travis-ci.org/uxland/uxl-redux)
+[![npm version](https://badge.fury.io/js/%40uxland%2Fuxl-redux.svg)](https://badge.fury.io/js/%40uxland%2Fuxl-redux)
 
-## &lt;uxl-regions&gt;
-To see a demo run polymer serve and browse to http://localhost:8081/components/uxl-regions/demo
+## Installation
+
+`npm i @uxland/uxl-regions`
+
+## Usage
