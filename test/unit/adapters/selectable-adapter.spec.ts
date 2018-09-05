@@ -1,7 +1,6 @@
 import {assert} from 'chai';
 import {SelectableAdapter} from "../../../src/adapters/selectable-adapter";
 import *as sinon from 'sinon';
-import {IRegion} from "@uxland/uxl-regions/region";
 
 describe('When instantiating SelectableAdapter class', () =>{
    it('should set attrForSelected property', () =>{

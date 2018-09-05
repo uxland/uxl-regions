@@ -54,14 +54,14 @@
     "@uxland/uxl-polymer2-ts": "^1.0.5",
     "@uxland/uxl-utilities": "^1.1.4",
     "tslib": "^1.9.3"
-  }
+  },
   "scripts": {
     "bump-bower": "gulp bump-bower && git add . && git commit -m 'Bump bower'",
     "bump-version": "gulp bump-version",
-    "test": "echo 'TODO: define unit testing'",
+    "test": "node --experimental-modules node_modules/mocha/bin/_mocha -r esm ./test/unit/setup.js --ui tdd --reporter mochawesome test/unit --recursive",
     "dist": "tsc --p gulp/tsconfig-dist.json && gulp generate-d-ts",
     "deps:install": "npm install",
-    "tdd": "node --experimental-modules node_modules/mocha/bin/_mocha --watch -r esm --ui tdd --reporter mochawesome test/unit"
+    "tdd": "node --experimental-modules node_modules/mocha/bin/_mocha --watch -r esm ./test/unit/setup.js --ui tdd --reporter mochawesome test/unit --recursive"
   },
   "directories": {
     "test": "test"
