@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "@polymer/lit-element": "^0.5.2",
+    "@polymer/polymer": "^3.0.2",
     "@uxland/uxl-polymer2-ts": "^1.0.5",
     "@uxland/uxl-utilities": "^1.1.4",
     "tslib": "^1.9.3"
