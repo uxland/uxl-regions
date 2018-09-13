@@ -1,8 +1,8 @@
-import {AdapterBase} from "./adapter-base";
 import {IRegionHost} from "../region";
 import {ViewComponent} from "../view-definition";
+import {SingleActiveAdapter} from "./single-active-adapter";
 
-export class SelectableAdapter extends AdapterBase{
+export class SelectableAdapter extends SingleActiveAdapter{
     protected attrForSelected: string = 'name';
     protected attrForSelectedProperty = 'attrForSelected';
     protected selectedProperty = 'selected';
