@@ -13,8 +13,8 @@ export interface IRegionHostMixin<T = any> extends LitElement{
 const getUxlRegions: (item: any) => {[key: string]: RegionDefinition} = item => item.constructor[regionsProperty] || {};
 export const RegionHostMixin = <T>(regionManager: IRegionManager, adapterRegistry: RegionAdapterRegistry)  => dedupingMixin(parent =>{
     class mixin extends parent{
-        connectedCallback(){
-            super.connectedCallback();
+        firstUpdated(changedProperties){
+            super.firstUpdated(changedProperties);
             let regions = getUxlRegions(this);
             Object.keys(regions).forEach(name =>{
                 let region = regionFactory(regions[name], <any>this, regionManager, adapterRegistry);
@@ -39,7 +39,7 @@ export const RegionHostMixin = <T>(regionManager: IRegionManager, adapterRegistr
     }
     return (<any>mixin) as IRegionHostMixin<T>;
 });
-regionAdapterRegistry.registerDefaultAdapterFactory(factory)
+regionAdapterRegistry.registerDefaultAdapterFactory(factory);
 
 export const RegionHost: <T>(parent: any) => IRegionHostMixin<T> = <T>(parent) => RegionHostMixin<T>(regionManager, regionAdapterRegistry)(parent);
 
