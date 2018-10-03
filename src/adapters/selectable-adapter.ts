@@ -23,7 +23,7 @@ export class SelectableAdapter extends SingleActiveAdapter{
         if(this.host[this.selectedProperty] === view.viewKey){
             this.host[this.selectedProperty] = null;
             let defaultView = this.host.uxlRegion.currentViews.find(v => v.isDefault);
-            defaultView && this.host.uxlRegion.activate(defaultView);
+            defaultView && view.view !== defaultView && this.host.uxlRegion.activate(defaultView);
         }
 
     }

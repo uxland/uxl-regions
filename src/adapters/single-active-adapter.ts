@@ -13,7 +13,7 @@ export class SingleActiveAdapter extends AdapterBase{
     deactivateView(view: HTMLElement & ViewComponent) {
         super.deactivateView(view);
         let defaultView = this.host.uxlRegion.currentViews.find(v => v.isDefault);
-        defaultView && this.host.uxlRegion.activate(defaultView);
+        defaultView && view.view !== defaultView && this.host.uxlRegion.activate(defaultView);
     }
 
     async viewAdded(view: ViewDefinition) {

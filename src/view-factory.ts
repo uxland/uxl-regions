@@ -9,9 +9,9 @@ export const viewFactory = async(view: ViewDefinition, parentRegion: IRegion, vi
     else if(view.factory)
         element = await view.factory();
     else if(view.htmlTag){
-        element = window.document.createElement(view.htmlTag);
         if(view.htmlUrl)
             await importHref(view.htmlUrl);
+        element = window.document.createElement(view.htmlTag);
     }
     element.view = view;
     element.region = parentRegion;
