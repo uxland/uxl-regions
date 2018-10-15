@@ -228,6 +228,83 @@ describe('Given an instance of Region', () => {
         });
 
     });
+    it('contains view test', () =>{
+        let region = regionFactory();
+        let view = {};
+        region['views']['my-view'] = view;
+        assert.isFalse(region.containsView('my-view2'));
+        assert.isFalse(region.containsView(<any>{}));
+        assert.isTrue(region.containsView('my-view'));
+        assert.isTrue(region.containsView(view));
+    });
+    describe('isAtiveView suite', () =>{
+        it('should raise exception if view does not exists', () =>{
+            let region = regionFactory();
+            sinon.stub(region, 'containsView').returns(false);
+            expect(() => region.isViewActive('my-view2')).to.throw(Error).with.property('message').eq(`region ${mockReginName} doest not contain this view`);
+            expect(() => region.isViewActive({})).to.throw(Error).with.property('message').eq(`region ${mockReginName} doest not contain this view`);
+            sinon.reset();
+            sinon.restore();
+            sinon.stub(region, 'containsView').returns(true);
+            expect(() => region.isViewActive('my-view2')).to.not.throw(Error);
+            expect(() => region.isViewActive({})).to.not.throw(Error);
+        });
+        it('should return true if is in activeView list', () =>{
+            let view: any = {};
+            let region = regionFactory();
+            region['views'] = {[mockViewName]: view};
+            region['activeViews'] =  [view];
+            sinon.stub(region, 'containsView').returns(true);
+            assert.isTrue(region.isViewActive(mockViewName));
+            assert.isTrue((region.isViewActive(view)));
+            assert.isFalse(region.isViewActive('my-view-fake'));
+            assert.isFalse((region.isViewActive({})));
+        })
+
+    });
+    describe('toggleViewActive', () =>{
+        it('should raise exception if view does not exists', () => {
+            let region = regionFactory();
+            sinon.stub(region, 'containsView').returns(false);
+            expect(() => region.toggleViewActive('my-view2')).to.throw(Error).with.property('message').eq(`region ${mockReginName} doest not contain this view`);
+            expect(() => region.toggleViewActive({})).to.throw(Error).with.property('message').eq(`region ${mockReginName} doest not contain this view`);
+            sinon.reset();
+            sinon.restore();
+            sinon.stub(region, 'containsView').returns(true);
+            sinon.stub(region, 'activate');
+            sinon.stub(region, 'deactivate');
+            expect(() => region.toggleViewActive('my-view2')).to.not.throw(Error);
+            expect(() => region.toggleViewActive({})).to.not.throw(Error);
+        });
+        it('should call deactivate view if view is active', () =>{
+            let region = regionFactory();
+            sinon.stub(region, 'containsView').returns(true);
+            sinon.stub(region, 'isViewActive').returns(true);
+            let activateSpy = sinon.stub(region, 'activate');
+            let deactivateSpy = sinon.stub(region, 'deactivate');
+
+            let result = region.toggleViewActive(mockViewName);
+
+            assert.isFalse(result);
+            assert.isTrue(deactivateSpy.calledOnceWith(mockViewName));
+            assert.isFalse(activateSpy.called);
+
+        });
+        it('should call activate view if view is not active', () =>{
+            let region = regionFactory();
+            sinon.stub(region, 'containsView').returns(true);
+            sinon.stub(region, 'isViewActive').returns(false);
+            let activateSpy = sinon.stub(region, 'activate');
+            let deactivateSpy = sinon.stub(region, 'deactivate');
+
+            let result = region.toggleViewActive(mockViewName);
+
+            assert.isTrue(result);
+            assert.isTrue(activateSpy.calledOnceWith(mockViewName));
+            assert.isFalse(deactivateSpy.called);
+
+        });
+    })
 });
 /**TODO**/
 /** Test view is instantiated on activate**/

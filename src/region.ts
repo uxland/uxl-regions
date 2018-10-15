@@ -43,6 +43,12 @@ export interface IRegion {
     viewRemovedFromDom(view: ViewDefinition);
 
     getKey(view: ViewDefinition): string;
+
+    isViewActive(view: string | ViewDefinition): boolean;
+
+    toggleViewActive(view: string | ViewDefinition): boolean;
+
+    containsView(view: string | ViewDefinition): boolean;
 }
 
 export class Region implements IRegion{
@@ -116,5 +122,29 @@ export class Region implements IRegion{
     getKey(view: ViewDefinition): string{
         return Object.keys(this.views).find(k => this.views[k] == view);
     }
+    containsView(view: string | ViewDefinition): boolean{
+        if(typeof view === 'string')
+            return this.getView(view) !== undefined;
+        return Object.keys(this.views).some(k => this.views[k] == view);
+    }
+    isViewActive(view: string | ViewDefinition): boolean{
+        if(this.containsView(view)){
+            let v: ViewDefinition = typeof view === 'string' ? this.getView(view) : view as ViewDefinition;
+            return this.activeViews.indexOf(v) !== -1;
+        }
+        throw new Error(`region ${this.name} doest not contain this view`);
+    }
+
+    toggleViewActive(view: string | ViewDefinition): boolean{
+        if(this.containsView(view)){
+            if(this.isViewActive(view)){
+                this.deactivate(view);
+                return false;
+            }
+            this.activate(view);
+            return true;
+        }
+        throw new Error(`region ${this.name} doest not contain this view`);
+    };
 
 }
