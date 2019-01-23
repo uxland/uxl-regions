@@ -5,7 +5,7 @@ import {IRegionManager, regionManager} from "./region-manager";
 import {regionFactory} from "./region-factory";
 import {regionAdapterRegistry, RegionAdapterRegistry} from "./region-adapter-registry";
 import {factory} from "./adapters/multiple-active-adapter";
-import {LitElement} from "@polymer/lit-element";
+import {LitElement} from "lit-element";
 
 export interface IRegionHostMixin<T = any> extends LitElement{
     new() : IRegionHostMixin<T> & T & LitElement;

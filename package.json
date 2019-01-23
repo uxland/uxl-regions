@@ -46,14 +46,14 @@
     "require-dir": "^0.3.2",
     "rimraf": "^2.6.2",
     "sinon": "^6.0.0",
-    "typescript": "^3.0.1",
+    "typescript": "^3.2.4",
     "wct-browser-legacy": "^1.0.0",
     "travis-deploy-once": "^5.0.7",
     "semantic-release": "^15.9.12"
   },
   "dependencies": {
-    "@polymer/lit-element": "^0.5.2",
-    "@polymer/polymer": "^3.0.2",
+    "lit-element": "^2.0.0-rc.3",
+    "@polymer/polymer": "^3.1.0",
     "@uxland/uxl-polymer2-ts": "^1.0.5",
     "@uxland/uxl-utilities": "^1.1.4",
     "tslib": "^1.9.3"

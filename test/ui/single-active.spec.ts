@@ -1,5 +1,5 @@
 import {RegionApp} from "./components/region-app";
-import {LitElement} from "@polymer/lit-element";
+import {LitElement} from "lit-element";
 import {regionAdapterRegistry} from "../../src/region-adapter-registry";
 import {factory} from "../../src/adapters/single-active-adapter";
 

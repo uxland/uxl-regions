@@ -1,5 +1,5 @@
 import {customElement} from '@uxland/uxl-polymer2-ts'
-import {html, LitElement} from '@polymer/lit-element/lit-element'
+import {html, LitElement} from 'lit-element/lit-element'
 import {region} from "../src/region-decorator";
 import {regionManager} from "../src/region-manager";
 import {RegionHost} from "../src/region-host-mixin";
