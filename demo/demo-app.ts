@@ -1,4 +1,4 @@
-import {customElement} from '@uxland/uxl-polymer2-ts'
+import {customElement} from 'lit-element/lib/decorators'
 import {html, LitElement} from 'lit-element/lit-element'
 import {region} from "../src/region-decorator";
 import {regionManager} from "../src/region-manager";

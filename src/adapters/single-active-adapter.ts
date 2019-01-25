@@ -1,4 +1,3 @@
-import {IRegionBehavior} from "../region";
 import {ViewComponent, ViewDefinition} from "../view-definition";
 import {AdapterBase} from "./adapter-base";
 
