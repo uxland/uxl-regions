@@ -1,6 +1,6 @@
-import {LitElement} from "@polymer/lit-element";
+import {LitElement} from "lit-element";
 import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
-import {property} from "@uxland/uxl-polymer2-ts";
+import {property} from "lit-element/lib/decorators";
 import {propertiesObserver} from '@uxland/uxl-utilities/properties-observer';
 export interface IRegionView {
     active: boolean;

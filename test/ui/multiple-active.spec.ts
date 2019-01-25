@@ -8,7 +8,7 @@ const delay = (amount = 100) => new Promise(resolve => setTimeout(resolve, amoun
 describe('When having a multiple active region', () =>{
     beforeEach(() =>{
         regionManager.clear();
-    })
+    });
     it('registered views should be added once a region is created', async() =>{
         regionManager.registerViewWithRegion('region', 'view1', {htmlTag: 'test-view1'});
         regionManager.registerViewWithRegion('region', 'view2', {htmlTag: 'test-view2'});
@@ -17,13 +17,10 @@ describe('When having a multiple active region', () =>{
         let f: HTMLDivElement = fixture('test-fixture');
         f.appendChild(document.createElement('region-app'));
         let app: RegionApp = <any>f.querySelector('region-app');
-        await (<any>app).renderComplete;
+        await delay();
+        await app.updateComplete;
         expect(app.region).exist;
         expect(app.region.host.children.length).to.eq(4);
-        expect(app.region.host.childNodes[0].localName).to.eq('test-view1');
-        expect(app.region.host.childNodes[1].localName).to.eq('test-view2');
-        expect(app.region.host.childNodes[2].localName).to.eq('test-view3');
-        expect(app.region.host.childNodes[3].localName).to.eq('test-view4');
     });
     it('registered views should be added sorted by sortHint', async() =>{
         regionManager.registerViewWithRegion('region', 'view1', {htmlTag: 'test-view1', sortHint: '0003'});
@@ -33,26 +30,28 @@ describe('When having a multiple active region', () =>{
         let f: HTMLDivElement = fixture('test-fixture');
         f.appendChild(document.createElement('region-app'));
         let app: RegionApp = <any>f.querySelector('region-app');
-        await app.renderComplete;
+        await delay();
+        await app.updateComplete;
         expect(app.region).exist;
         expect(app.region.host.children.length).to.eq(4);
-        expect(app.region.host.childNodes[0].localName).to.eq('test-view3');
-        expect(app.region.host.childNodes[1].localName).to.eq('test-view4');
-        expect(app.region.host.childNodes[2].localName).to.eq('test-view1');
-        expect(app.region.host.childNodes[3].localName).to.eq('test-view2');
-    })
+        expect(app.region.host.children.item(0).localName).to.eq('test-view3');
+        expect(app.region.host.children.item(1).localName).to.eq('test-view4');
+        expect(app.region.host.children.item(2).localName).to.eq('test-view1');
+        expect(app.region.host.children.item(3).localName).to.eq('test-view2');
+    });
     it('adding views', async() =>{
         let f: HTMLDivElement = fixture('test-fixture');
         f.appendChild(document.createElement('region-app'));
         let app: RegionApp= <any>f.querySelector('region-app');
-        await app.renderComplete;
+        await app.updateComplete;
         await app.region.addView('view1', {htmlTag: 'test-view1', sortHint: '003'});
-        await app.renderComplete;
-        expect(app.region.host.childNodes[0].localName).to.be.eq('test-view1');
+        await delay();
+        await app.updateComplete;
+        expect(app.region.host.children.item(0).localName).to.be.eq('test-view1');
         await app.region.addView('view2', {htmlTag: 'test-view2', sortHint: '002'});
-        expect(app.region.host.childNodes[0].localName).to.be.eq('test-view2');
-        expect(app.region.host.childNodes[1].localName).to.be.eq('test-view1');
-    })
+        expect(app.region.host.children.item(0).localName).to.be.eq('test-view2');
+        expect(app.region.host.children.item(1).localName).to.be.eq('test-view1');
+    });
     it('deactivating views', async() =>{
         let f: HTMLDivElement = fixture('test-fixture');
         f.appendChild(document.createElement('region-app'));
@@ -62,22 +61,23 @@ describe('When having a multiple active region', () =>{
           span.textContent = text;
           return span;
         };
-        await app.renderComplete;
+        await delay();
+        await app.updateComplete;
         await app.region.addView('view1', {factory: () => <any>viewFactory('view1'), sortHint: '001'});
         await app.region.addView('view2', {factory: () => <any>viewFactory('view2'), sortHint: '002'});
         await app.region.addView('view3', {factory: () => <any>viewFactory('view3'), sortHint: '003'});
-        await app.renderComplete;
-        expect(app.region.host.childNodes[0].localName).to.be.eq('span');
-        expect(app.region.host.childNodes[1].localName).to.be.eq('span');
-        expect(app.region.host.childNodes[2].localName).to.be.eq('span');
+        await app.updateComplete;
+        expect(app.region.host.children.item(0).localName).to.be.eq('span');
+        expect(app.region.host.children.item(1).localName).to.be.eq('span');
+        expect(app.region.host.children.item(2).localName).to.be.eq('span');
         app.region.deactivate('view2');
-        await app.renderComplete;
+        await app.updateComplete;
         expect(app.region.host.childElementCount).to.be.equal(3);
         expect((<HTMLElement>app.region.host.childNodes[1]).hidden).to.be.true;
         await app.region.activate('view2');
-        await app.renderComplete;
+        await app.updateComplete;
         expect((<HTMLElement>app.region.host.childNodes[1]).hidden).to.be.false
     });
-})
+});
 
 //ToDO: comprovar que s'oculten els elements. Comprovar que si s'elimina un component del dom també s'elimina de la llista d'elements de la regió

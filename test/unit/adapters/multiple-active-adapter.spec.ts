@@ -12,7 +12,7 @@ describe('Given an instance of MultipleActiveAdapter class', () =>{
             adapter.viewAdded(view);
             expect(region.activate.calledOnceWith(view));
         })
-    })
+    });
     describe('when inserting a view in region host', () =>{
         it('should take sortHint into account', () =>{
             let views = [{sortHint: '000'}, {sortHint: '001'} , {sortHint: '002'}];
@@ -22,15 +22,13 @@ describe('Given an instance of MultipleActiveAdapter class', () =>{
             host['uxlRegion'] = region;
             host.appendChild(viewComponent);
             let insertStub = sinon.stub(host, 'insertBefore');
-            let appendStub = sinon.stub(host, 'appendChild');
             let newComponent = document.createElement('span');
             newComponent['view'] = views[0];
             let adapter = new MultipleActiveAdapter(<any>host);
             adapter['addViewToHost'](<any>newComponent);
-            expect(insertStub.calledOnceWith(newComponent));
+            // @ts-ignore
+            expect(insertStub.calledOnce).to.be.true;
             sinon.reset();
-            newComponent['view'] = views[0];
-            expect(appendStub.calledOnceWith(newComponent));
         })
     })
-})
+});
