@@ -33,16 +33,15 @@ describe('Given an instance of Region', () => {
             assert.strictEqual(result, region);
             assert.strictEqual(region.getView(mockViewName), view);
         });
-        it('should validate view', () => {
+        it('should validate view', async() => {
             let region = regionFactory();
-            let view = {};
-            region.addView(mockViewName, {});
+            await region.addView(mockViewName, {});
             assert.isTrue(validateViewStub.calledOnce);
         });
-        it('should notify adapter', () => {
+        it('should notify adapter', async() => {
             let region = regionFactory();
             let view = {};
-            region.addView(mockViewName, {});
+            await region.addView(mockViewName, {});
             assert.isTrue((<SinonStub>region.adapter.viewAdded).calledOnceWith(view));
         });
         it('should raise error if validate view raises', async() => {
@@ -51,7 +50,7 @@ describe('Given an instance of Region', () => {
             let region = regionFactory();
             expect(region.addView(mockViewName, {})).to.eventually.be.rejectedWith(Error);
             assert.isFalse((<SinonStub>region.adapter.viewAdded).calledOnceWith(view));
-        })
+        });
         it('should raise error if a view with same key is already added', () => {
             let region = regionFactory();
             sinon.stub(region, 'getView').withArgs(mockViewName).returns({});
@@ -82,17 +81,17 @@ describe('Given an instance of Region', () => {
         describe('by key', () => {
             it('should be added to the active views collection', async () => {
                 let region = regionFactory();
-                sinon.stub(viewFactory, 'viewFactory').returns(document.createElement('my-view'));
+                sinon.stub(viewFactory, 'viewFactory').returns(<any>document.createElement('my-view'));
                 let view = {};
                 region['views'] = {[mockViewName]: view};
                 await region.activate(mockViewName);
                 assert.exists(region.currentActiveViews.find(v => v === view));
-            })
+            });
             it('should be added only once', async () => {
                 let view = {};
                 let region = regionFactory();
                 sinon.stub(region, 'getView').withArgs(mockViewName).returns(view);
-                sinon.stub(viewFactory, 'viewFactory').returns(document.createElement('my-view'));
+                sinon.stub(viewFactory, 'viewFactory').returns(<any>document.createElement('my-view'));
                 await region.activate(mockViewName);
                 await region.activate(mockViewName);
                 await region.activate(mockViewName);
@@ -100,8 +99,8 @@ describe('Given an instance of Region', () => {
             });
             it('should raise error if region does not contain view', async () => {
                 let region = regionFactory();
-                sinon.stub(viewFactory, 'viewFactory').returns(document.createElement('my-view'));
-                const otherViewKey = `${mockViewName}1`
+                sinon.stub(viewFactory, 'viewFactory').returns(<any>document.createElement('my-view'));
+                const otherViewKey = `${mockViewName}1`;
                 sinon.stub(region, 'getView').withArgs(mockViewName).returns({}).withArgs(otherViewKey).returns(undefined);
                 let p = region.activate(mockViewName);
                 await  expect(p).to.be.fulfilled;
@@ -114,18 +113,18 @@ describe('Given an instance of Region', () => {
                 let view = {};
                 let region = regionFactory();
                 region['views'] = {[mockViewName]: view};
-                sinon.stub(viewFactory, 'viewFactory').returns(document.createElement('my-view'));
+                sinon.stub(viewFactory, 'viewFactory').returns(<any>document.createElement('my-view'));
                 await region.activate(view);
                 assert.isTrue(region.currentActiveViews.some(v => v === view));
             });
             it('should be added only once', async () => {
                 let view = {};
                 let region = regionFactory();
-                sinon.stub(viewFactory, 'viewFactory').returns(document.createElement('my-view'));
+                sinon.stub(viewFactory, 'viewFactory').returns(<any>document.createElement('my-view'));
                 region['views'] = {[mockViewName]: view};
                 await region.activate(view);
                 await region.activate(view);
-                await region.activate(view)
+                await region.activate(view);
                 assert.equal(region.currentActiveViews.filter(v => v === view).length, 1);
             });
             it('should raise error if region does not contain view', async () => {
@@ -134,24 +133,26 @@ describe('Given an instance of Region', () => {
             });
         });
         it('should create view component if no created previously', async () => {
-            let stub = sinon.stub(viewFactory, 'viewFactory').returns(Promise.resolve(document.createElement('my-view')));
+            let stub = sinon.stub(viewFactory, 'viewFactory').returns(Promise.resolve(<any>document.createElement('my-view')));
             let region = regionFactory();
             let view = {};
             sinon.stub(region, 'getView').withArgs(mockViewName).returns(view);
             sinon.stub(region['components'], 'has').returns(false);
             await region.activate(mockViewName);
             assert.isTrue(region.currentActiveViews.indexOf(view) >= 0);
+            // @ts-ignore
             assert.isTrue(stub.calledOnceWith(view));
         });
         it('should not create view component if created previously', async () => {
-            let stub = sinon.stub(viewFactory, 'viewFactory').returns(Promise.resolve(document.createElement('my-view')));
+            let stub = sinon.stub(viewFactory, 'viewFactory').returns(<any>document.createElement('my-view'));
             let region = regionFactory();
             let view = {};
             sinon.stub(region, 'getView').withArgs(mockViewName).returns(view);
             sinon.stub(region['components'], 'has').withArgs(view).returns(true);
-            sinon.stub(region['components'], 'get').withArgs(view).returns({});
+            sinon.stub(region['components'], 'get').withArgs(view).returns(<any>{});
             await region.activate(mockViewName);
             assert.isTrue(region.currentActiveViews.indexOf(view) >= 0);
+            // @ts-ignore
             assert.isFalse(stub.calledOnceWith(view));
         });
         it('should set activate to true to view component', async () => {
@@ -160,7 +161,7 @@ describe('Given an instance of Region', () => {
             let component = <ViewComponent>{};
             sinon.stub(region, 'getView').withArgs(mockViewName).returns(view);
             sinon.stub(region['components'], 'has').withArgs(view).returns(true);
-            sinon.stub(region['components'], 'get').withArgs(view).returns(component);
+            sinon.stub(region['components'], 'get').withArgs(view).returns(<any>component);
             await region.activate(mockViewName);
             assert.isTrue(component.active);
         });
@@ -170,7 +171,7 @@ describe('Given an instance of Region', () => {
             let component = <ViewComponent>{};
             sinon.stub(region, 'getView').withArgs(mockViewName).returns(view);
             sinon.stub(region['components'], 'has').withArgs(view).returns(true);
-            sinon.stub(region['components'], 'get').withArgs(view).returns(component);
+            sinon.stub(region['components'], 'get').withArgs(view).returns(<any>component);
             await region.activate(mockViewName);
             assert.isTrue((<SinonStub>region.adapter.activateView).calledOnceWith(component));
         });
@@ -183,7 +184,7 @@ describe('Given an instance of Region', () => {
             region['views'] = {[mockViewName]: view};
             region['activeViews'] = [view];
             expect(region.currentActiveViews).eql([view]);
-            sinon.stub(region['components'], 'get').withArgs(view).returns(component);
+            sinon.stub(region['components'], 'get').withArgs(view).returns(<any>component);
             region.deactivate(view);
             assert.equal(region.currentActiveViews.indexOf(view), -1);
             region['activeViews'] = [view];
@@ -197,7 +198,7 @@ describe('Given an instance of Region', () => {
             let component = <ViewComponent>{};
             region['views'] = {[mockViewName]: view};
             region['activeViews'] = [view];
-            sinon.stub(region['components'], 'get').withArgs(view).returns(component);
+            sinon.stub(region['components'], 'get').withArgs(view).returns(<any>component);
             region.deactivate(view);
             assert.isFalse(component.active);
             region['activeViews'] = [view];
@@ -210,13 +211,13 @@ describe('Given an instance of Region', () => {
             let component = <ViewComponent>{};
             region['views'] = {[mockViewName]: view};
             region['activeViews'] = [view];
-            sinon.stub(region['components'], 'get').withArgs(view).returns(component);
+            sinon.stub(region['components'], 'get').withArgs(view).returns(<any>component);
             region.deactivate(view);
-            assert.isTrue((<SinonStub>region.adapter.deactivateView).calledOnceWith(component));
+            assert.isTrue((<SinonStub>region.adapter.deactivateView).calledOnceWith(<any>component));
             region['activeViews'] = [view];
             (<SinonStub>region.adapter.deactivateView).resetHistory();
             region.deactivate(mockViewName);
-            assert.isTrue((<SinonStub>region.adapter.deactivateView).calledOnceWith(component));
+            assert.isTrue((<SinonStub>region.adapter.deactivateView).calledOnceWith(<any>component));
         });
         it('should not deactivate component neither notify adapter if component related to view not found', () =>{
             let region = regionFactory();
