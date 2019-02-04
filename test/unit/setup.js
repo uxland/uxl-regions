@@ -1,3 +1,5 @@
+const tsNode = require('ts-node');
+tsNode.register({all: true});
 const { JSDOM } = require('jsdom');
 
 const jsdom = new JSDOM('<!doctype html><head><script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script></head><html><body></body></html>', {
