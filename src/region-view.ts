@@ -19,3 +19,4 @@ export const RegionView: <T>(parent: any) => IRegionViewMixin<T> = dedupingMixin
     }
     return (<any> mixin) as IRegionViewMixin;
 });
+
