@@ -15,13 +15,13 @@ class Base {
     };
 }
 
-const regionManager = {add: (name: string, region: IRegion) => this}
+const regionManager = {add: (name: string, region: IRegion) => this};
 const adapterRegistry: any = {};
 describe('Given a component that extends RegionHostMixin', () => {
     beforeEach(() =>{
         sinon.reset();
         sinon.restore();
-    })
+    });
     it('should create defined regions', () => {
         /*class Component extends RegionHostMixin<Base>(<any>regionManager, adapterRegistry)(Base) {
         }
@@ -44,7 +44,7 @@ describe('Given a component that extends RegionHostMixin', () => {
         expect(regionFactoryStub.calledOnceWith(secondRegion, target2, regionManager, adapterRegistry));
         expect(c['firstRegion']).to.be.equal(region1);
         expect(c['secondRegion']).to.be.equal(region2);*/
-    })
+    });
     it('should attach behaviors if any', () =>{
        /* class Component extends RegionHostMixin<Base>(<any>regionManager, adapterRegistry)(Base) {
         }
@@ -58,7 +58,7 @@ describe('Given a component that extends RegionHostMixin', () => {
         behaviors.forEach(b => expect(b.attach.calledOnce).to.be.true);*/
     });
     it('should remove region from region on disconnected', () =>{
-        class Component extends RegionHostMixin<Base>(<any>regionManager, adapterRegistry)(Base) {
+        class Component extends RegionHostMixin(<any>regionManager, adapterRegistry)(<any>Base) {
         }
 
         const firstRegion = {name: 'region1', targetId: 'region#1'};
@@ -73,7 +73,7 @@ describe('Given a component that extends RegionHostMixin', () => {
     });
     it('should dettach behaviors from region on disconnected',() =>{
         const behaviors = [{detach: sinon.stub()}, {detach: sinon.stub()}];
-        class Component extends RegionHostMixin<Base>(<any>regionManager, adapterRegistry)(Base) {
+        class Component extends RegionHostMixin(<any>regionManager, adapterRegistry)(<any>Base) {
         }
 
         const firstRegion = {name: 'region1', targetId: 'region#1'};
@@ -83,4 +83,4 @@ describe('Given a component that extends RegionHostMixin', () => {
         (<Base>c).disconnectedCallback();
         behaviors.forEach(b => expect(b.detach.calledOnce).to.be.true);
     });
-})
+});

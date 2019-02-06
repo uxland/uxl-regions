@@ -1,9 +1,10 @@
-export {RegionBehaviorPrototype} from './behaviors/behavior-registry';
-export {IRegion, IRegionAdapter, IRegionHost, IRegionBehavior, RegionDefinition} from './region';
-export {adapterFactory} from './region-adapter-registry';
-export {IRegionHostMixin} from './region-host-mixin';
-export {IRegionManager} from './region-manager';
-export * from './view-definition'
-/*
+export * from './region';
+export * from './region-adapter-registry';
+export * from './region-decorator';
+export * from './region-factory';
+export * from './region-host-mixin';
 export * from './region-manager';
-export * from './view-definition';*/
+export * from './region-view';
+export * from './validate-view';
+export * from './view-definition';
+export * from './view-factory';

@@ -12,7 +12,8 @@
   },
   "author": "UXLand <dev@uxland.es> (http://www.uxland.es)",
   "main": "dist/index.js",
-  "module": "dist/index.js",
+  "module": "index.js",
+  "types": "index.d.ts",
   "keywords": [
     "polymer",
     "web components"
@@ -30,7 +31,7 @@
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "dts-generator": "^2.1.0",
-    "esm": "^3.0.66",
+    "esm": "^3.2.1",
     "jsdom": "^11.11.0",
     "mocha": "^5.2.0",
     "mochawesome": "^3.0.2",
@@ -47,9 +48,9 @@
     "wct-browser-legacy": "^1.0.0"
   },
   "dependencies": {
-    "lit-element": "^2.0.0-rc.5",
     "@polymer/polymer": "^3.1.0",
-    "@uxland/uxl-utilities": "^2.0.0",
+    "@uxland/uxl-utilities": "^2.0.6",
+    "lit-element": "^2.0.1",
     "tslib": "^1.9.3"
   },
   "scripts": {
@@ -59,7 +60,7 @@
     "tdd": "node --experimental-modules node_modules/mocha/bin/_mocha --watch -r esm ./test/unit/setup.js --ui tdd --reporter mochawesome test/unit/**/*.loader.js",
     "build:es": "tsc -p tsconfig-es.json",
     "build:cjs": "tsc -p tsconfig-cjs.json",
-    "build": "npm run build:es && npm run build:cjs",
+    "build": "npm run build:es",
     "dist": "npm run build",
     "travis-deploy-once": "travis-deploy-once",
     "semantic-release": "semantic-release"

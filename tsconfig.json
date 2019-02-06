@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "module": "esnext",
-    "target": "es6",
+    "target": "esnext",
     "rootDir": ".",
+    "outDir": "./dev",
     "sourceMap": true,
     "declaration": true,
     "noImplicitAny": false,
