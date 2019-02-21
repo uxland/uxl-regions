@@ -3,9 +3,11 @@ import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
 import {property} from "lit-element/lib/decorators";
 import {propertiesObserver} from '@uxland/uxl-utilities/properties-observer';
 import {MixinFunction} from "@uxland/uxl-utilities/types";
+import {ViewDefinition} from "./view-definition";
 export interface IRegionView {
     active: boolean;
     activeChanged(current: boolean, previous: boolean);
+    view: ViewDefinition;
 
 }
 export interface RegionViewConstructor extends LitElement{
@@ -21,6 +23,7 @@ export const regionView: RegionViewFunction = dedupingMixin((superClass: Constru
         @property({type: Boolean})
         active: boolean;
         activeChanged(current: boolean, previous: boolean){}
+        view: ViewDefinition;
     }
     return <any>RegionView;
 } );
