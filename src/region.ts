@@ -3,6 +3,7 @@ import {validateView} from "./validate-view";
 import {invariant} from "@uxland/uxl-utilities/invariant";
 import {viewFactory} from "./view-factory";
 import {IRegionManager} from "./region-manager";
+import {adapterFactory} from "./region-adapter-registry";
 
 export interface IRegionHost extends Element{
     uxlRegion: IRegion;
@@ -22,6 +23,7 @@ export interface RegionDefinition {
     targetId: string;
     scoped?: boolean;
     options?: any;
+    adapter?: IRegionAdapter;
 }
 export interface IRegion {
     name: string;

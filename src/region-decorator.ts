@@ -1,4 +1,4 @@
-import {RegionDefinition} from "./region";
+import {IRegionAdapter, RegionDefinition} from "./region";
 
 
 export const regionsProperty = '__uxl_regions__';
