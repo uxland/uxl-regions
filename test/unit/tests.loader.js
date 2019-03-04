@@ -1,4 +1,3 @@
-/*
 const fs = require('fs');
 const walk = function(dir) {
     let results = [];
@@ -16,4 +15,4 @@ const walk = function(dir) {
 };
 let files = walk(__dirname);
 files.forEach(require);
-files.forEach(fileName => require(fileName));*/
+files.forEach(fileName => require(fileName));
