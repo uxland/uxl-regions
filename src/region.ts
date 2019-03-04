@@ -23,7 +23,7 @@ export interface RegionDefinition {
     targetId: string;
     scoped?: boolean;
     options?: any;
-    adapter?: IRegionAdapter;
+    adapterFactory?: adapterFactory;
 }
 export interface IRegion {
     name: string;
