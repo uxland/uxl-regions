@@ -10,7 +10,7 @@ const createAdapter = (definition: RegionDefinition, target: Element,adapterRegi
 };
 export const regionFactory = (definition: RegionDefinition, host: Element, regionManager: IRegionManager, adapterRegistry: RegionAdapterRegistry) =>{
     let target = host.shadowRoot.querySelector(`#${definition.targetId}`);
-    let adapter = definition.adapter || createAdapter(definition, target, adapterRegistry);
+    let adapter = definition.adapterFactory ? definition.adapterFactory(definition, <any>target) : createAdapter(definition, target, adapterRegistry);
     invariant(adapter, 'No region adapter found for the host');
     let targetRegionManager = definition.scoped ? regionManager.createRegionManager() : regionManager;
     let region = new Region(definition.name, targetRegionManager, target as any, adapter, definition);
