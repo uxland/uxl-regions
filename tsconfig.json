@@ -3,6 +3,7 @@
     "module": "esnext",
     "target": "esnext",
     "rootDir": ".",
+    "allowJs": true,
     "outDir": "./dev",
     "sourceMap": true,
     "declaration": true,

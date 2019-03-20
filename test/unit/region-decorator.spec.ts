@@ -1,6 +1,5 @@
-import {expect} from 'chai';
-import {IRegion, RegionDefinition} from "../../src/region";
-import {region, regionsProperty} from "../../src/region-decorator";
+import {IRegion, RegionDefinition} from "../../src";
+import {region, regionsProperty} from "../../src";
 describe('when adding a region decorator to a component', () =>{
     it('should add region definition to component constructor', () =>{
         const regionDefinition = <RegionDefinition>{};
@@ -9,7 +8,7 @@ describe('when adding a region decorator to a component', () =>{
             region: IRegion;
         }
         let regions = Component[regionsProperty];
-        expect(regions).to.exist;
-        expect(regions.region).to.equal(regionDefinition);
+        expect(regions).toBeDefined();
+        expect(regions.region).toBe(regionDefinition);
     }) ;
 });

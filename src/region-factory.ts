@@ -1,7 +1,7 @@
 import {Region, RegionDefinition} from "./region";
 import {IRegionManager} from "./region-manager";
 import {RegionAdapterRegistry} from "./region-adapter-registry";
-import {invariant} from '@uxland/uxl-utilities/invariant';
+import {invariant} from '@uxland/uxl-utilities';
 
 const createAdapter = (definition: RegionDefinition, target: Element,adapterRegistry: RegionAdapterRegistry) =>{
     let adapterFactory = adapterRegistry.getAdapterFactory(target);
