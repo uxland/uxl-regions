@@ -1,6 +1,5 @@
 import {viewFactory} from "../../src";
 import {ViewDefinition} from "../../src";
-import {JSDOM} from 'jsdom';
 import {IRegion} from "../../src";
 
 declare var global: any;
@@ -8,7 +7,6 @@ declare var global: any;
 describe('when invoking `viewFactory` function', () => {
     const region = <IRegion>{};
     beforeEach(() => {
-        global.window = new JSDOM('').window;
         jest.resetAllMocks();
         jest.restoreAllMocks();
     });

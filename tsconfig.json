@@ -1,12 +1,10 @@
 {
   "compilerOptions": {
-    "module": "esnext",
     "target": "esnext",
+    "module": "commonjs",
     "rootDir": ".",
     "allowJs": true,
-    "outDir": "./dev",
-    "sourceMap": true,
-    "declaration": true,
+    "noEmit": true,
     "noImplicitAny": false,
     "removeComments": true,
     "esModuleInterop": true,

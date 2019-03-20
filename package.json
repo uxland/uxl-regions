@@ -11,9 +11,9 @@
     "url": "https://github.com/uxland/uxl-regions/issues"
   },
   "author": "UXLand <dev@uxland.es> (http://www.uxland.es)",
-  "main": "dist/index.js",
-  "module": "index.js",
-  "types": "index.d.ts",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "polymer",
     "web components"
@@ -21,6 +21,9 @@
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/plugin-proposal-decorators": "^7.4.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.3.4",
     "@babel/preset-typescript": "^7.3.3",
     "@skatejs/bore": "^5.0.2",
@@ -31,6 +34,7 @@
     "@types/ramda": "^0.26.3",
     "babel-jest": "^24.5.0",
     "cross-env": "^5.2.0",
+    "fast-async": "^7.0.6",
     "jest": "^24.5.0",
     "jest-when": "^2.3.1",
     "rollup": "^1.6.0",
@@ -50,12 +54,11 @@
   "scripts": {
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
-    "build:es": "cross-env BABEL_ENV=es babel --extensions '.ts' src --out-dir es",
-    "build:cjs": "cross-env BABEL_ENV=cjs babel src --extensions '.ts' --out-dir lib",
-    "build:types": "tsc -p tsconfig-types.json",
+    "build:es": "tsc -p tsconfig.build.json --outDir es  ",
+    "build:cjs": "tsc -p tsconfig.build.json --outDir lib --module commonjs --declaration",
     "build:umd": "cross-env NODE_ENV=development rollup -c -o dist/uxl-redux.js",
     "build:umd:min": "cross-env NODE_ENV=production rollup -c -o dist/uxl-redux.min.js",
-    "build": "npm run build:es && npm run build:cjs && npm run build:types",
+    "build": "npm run build:es && npm run build:cjs",
     "test:ui:watch": "nodemon --watch test --watch src -x \"polymer test --config-file wct.config.json\"",
     "test:ui": "polymer test --config-file wct.config.json",
     "test:unit": "jest",

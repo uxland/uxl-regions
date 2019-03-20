@@ -5,6 +5,11 @@ module.exports = api =>{
         "@babel/preset-typescript"
     ];
     const plugins = [
+        "module:fast-async",
+        ["@babel/plugin-proposal-decorators", {legacy: true}],
+        ["@babel/plugin-proposal-class-properties", {loose: true}],
+        "@babel/plugin-syntax-dynamic-import",
+
     ];
   return{
       env:{

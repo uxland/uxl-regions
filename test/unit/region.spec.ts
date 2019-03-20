@@ -43,7 +43,7 @@ describe('Given an instance of Region', () => {
             expect(region.adapter.viewAdded).toBeCalledWith(view);
         });
         it('should raise error if validate view raises', async () => {
-            expect.assertions(2);
+            expect.assertions(1);
             validateViewStub.mockImplementation(() => {
                 throw new Error()
             });
@@ -56,7 +56,7 @@ describe('Given an instance of Region', () => {
             let region = regionFactory();
             when(<any>jest.spyOn(region, 'getView')).calledWith(mockViewName).mockReturnValue({});
             await expect(region.addView(mockViewName, {})).rejects.toThrow(`Already exists a view with key ${mockViewName}`);
-            expect(region.adapter.viewAdded).toBeCalledTimes(1);
+            expect(region.adapter.viewAdded).not.toBeCalled();
             expect(() => region.addView(mockViewName + '1', {})).not.toThrow();
             expect(region.adapter.viewAdded).toBeCalledTimes(1);
         });
@@ -141,7 +141,7 @@ describe('Given an instance of Region', () => {
             jest.spyOn(region['components'], 'has').mockReturnValue(false);
             await region.activate(mockViewName);
             expect(region.currentActiveViews.indexOf(view) >= 0).toBe(true);
-            expect(stub).toBeCalledWith(view);
+            expect(stub).toBeCalledWith(view, region, mockViewName);
         });
         it('should not create view component if created previously', async () => {
             let stub = jest.spyOn(viewFactory, 'viewFactory').mockReturnValue(<any>document.createElement('my-view'));
@@ -152,7 +152,7 @@ describe('Given an instance of Region', () => {
             when(<any>jest.spyOn(region['components'], 'get')).calledWith(view).mockReturnValue(<any>{});
             await region.activate(mockViewName);
             expect(region.currentActiveViews.indexOf(view) >= 0).toBe(true);
-            expect(stub).toBeCalledWith(view);
+            expect(stub).not.toBeCalled();
         });
         it('should set activate to true to view component', async () => {
             let region = regionFactory();
@@ -189,7 +189,7 @@ describe('Given an instance of Region', () => {
             region['activeViews'] = [view];
             expect(region.currentActiveViews).toEqual([view]);
             region.deactivate(mockViewName);
-            expect(region.currentActiveViews.indexOf(view)).toBe(1);
+            expect(region.currentActiveViews.indexOf(view)).toBe(-1);
         });
         it('should deactivate component', () => {
             let region = regionFactory();
@@ -286,8 +286,8 @@ describe('Given an instance of Region', () => {
             let result = region.toggleViewActive(mockViewName);
 
             expect(result).toBe(false);
-            expect(deactivateSpy).not.toBeCalledWith(mockViewName);
-            expect(activateSpy).toBeCalled();
+            expect(deactivateSpy).toBeCalledWith(mockViewName);
+            expect(activateSpy).not.toBeCalled();
 
         });
         it('should call activate view if view is not active', () => {
