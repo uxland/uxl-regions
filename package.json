@@ -28,17 +28,17 @@
     "cross-env": "^5.2.0",
     "jest": "^24.5.0",
     "jest-when": "^2.3.1",
-    "rollup": "^1.6.0",
+    "rollup": "^1.7.0",
     "rollup-plugin-typescript": "^1.0.0",
     "rollup-plugin-uglify": "^6.0.2",
     "semantic-release": "^15.13.3",
     "travis-deploy-once": "^5.0.11",
     "ts-jest": "^24.0.0",
     "tslib": "^1.9.3",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.3.4000"
   },
   "dependencies": {
-    "@uxland/uxl-utilities": "^3.0.3",
+    "@uxland/uxl-utilities": "^3.0.4",
     "lit-element": "^2.0.1",
     "tslib": "^1.9.3"
   },

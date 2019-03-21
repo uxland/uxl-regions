@@ -11,5 +11,6 @@ test/**/*.js.map
 demo/**/*.js
 demo/**/*.js.map
 mochawesome-report/
-package-lock.json
 .DS_Store
+es/
+lib/
