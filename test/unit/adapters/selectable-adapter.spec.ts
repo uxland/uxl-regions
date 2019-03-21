@@ -20,11 +20,11 @@ describe('Given an instance of SelectableAdapter class', () => {
             });
         });
         describe('and region has no currently an active view', () => {
-            it('it should activate added view if is default', () => {
-                let region = {activate: jest.fn(), deactivate: jest.fn(), currentActiveViews: [{}]};
+            it('it should activate added view if is default', async() => {
+                let region = {activate: jest.fn(), deactivate: jest.fn(), currentActiveViews: []};
                 let adapter = new SelectableAdapter(<any>{uxlRegion: region});
                 let view: any = {isDefault: true};
-                adapter.viewAdded(view).then(nop);
+                await adapter.viewAdded(view).then(nop);
                 expect(region.activate).toBeCalledWith(view);
             });
             it('should do nothing if added view is not default', () => {

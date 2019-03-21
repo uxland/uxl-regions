@@ -14,7 +14,7 @@ before_script:
 script:
 
   # - xvfb-run npm run test:ui
-  # - npm run test:unit
+  - npm run test:unit
 after_success:
   - npm run dist
 branches:

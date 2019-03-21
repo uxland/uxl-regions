@@ -1,4 +1,10 @@
 import {adapterFactory, RegionAdapterRegistry} from "../../src";
+class Element1 extends Element{
+
+}
+class Element2 extends Element{
+
+}
 
 describe('Given an instance of RegionAdapterRegistry', () => {
     describe('and registring an adapter factory', () => {
@@ -6,10 +12,10 @@ describe('Given an instance of RegionAdapterRegistry', () => {
             let factory: adapterFactory = () => <any>{};
             let factory2: adapterFactory = () => <any>{};
             let regionAdapterRegistry = new RegionAdapterRegistry();
-            regionAdapterRegistry.registerAdapterFactory(HTMLDivElement, factory);
-            regionAdapterRegistry.registerAdapterFactory(HTMLSpanElement, factory2);
-            expect(regionAdapterRegistry.getAdapterFactory(document.createElement('div'))).toBe(factory);
-            expect(regionAdapterRegistry.getAdapterFactory(document.createElement('span'))).toBe(factory2);
+            regionAdapterRegistry.registerAdapterFactory(Element1, factory);
+            regionAdapterRegistry.registerAdapterFactory(Element2, factory2);
+            expect(regionAdapterRegistry.getAdapterFactory(new Element1())).toBe(factory);
+            expect(regionAdapterRegistry.getAdapterFactory(new Element2())).toBe(factory2);
         });
         it('should allow to register by tag name', () => {
             let factory: adapterFactory = () => <any>{};
@@ -34,9 +40,9 @@ describe('Given an instance of RegionAdapterRegistry', () => {
             let factory2: adapterFactory = () => <any>{};
             let regionAdapterRegistry = new RegionAdapterRegistry();
 
-            regionAdapterRegistry.registerAdapterFactory(HTMLDivElement, factory1);
-            regionAdapterRegistry.registerAdapterFactory(HTMLDivElement, factory2);
-            expect(regionAdapterRegistry.getAdapterFactory(document.createElement('div'))).toBe(factory2);
+            regionAdapterRegistry.registerAdapterFactory(Element1, factory1);
+            regionAdapterRegistry.registerAdapterFactory(Element1, factory2);
+            expect(regionAdapterRegistry.getAdapterFactory(new Element1())).toBe(factory2);
 
             regionAdapterRegistry.registerAdapterFactory('SPAN', factory2);
             regionAdapterRegistry.registerAdapterFactory('SPAN', factory1);
@@ -50,10 +56,10 @@ describe('Given an instance of RegionAdapterRegistry', () => {
             let factory1: adapterFactory = () => <any>{};
             let factory2: adapterFactory = () => <any>{};
             let regionAdapterRegistry = new RegionAdapterRegistry();
-            regionAdapterRegistry.registerAdapterFactory(HTMLDivElement, factory1);
+            regionAdapterRegistry.registerAdapterFactory(Element1, factory1);
             regionAdapterRegistry.registerDefaultAdapterFactory(factory2);
             expect(regionAdapterRegistry.getAdapterFactory(document.createElement('span'))).toBe(factory2);
-            expect(regionAdapterRegistry.getAdapterFactory(document.createElement('div'))).toBe(factory1);
+            expect(regionAdapterRegistry.getAdapterFactory(new Element1())).toBe(factory1);
         });
         it('should return null if no default factory defined', () => {
             let regionAdapterRegistry = new RegionAdapterRegistry();

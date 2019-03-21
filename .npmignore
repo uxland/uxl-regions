@@ -2,4 +2,4 @@ src/
 test/
 polymer.json
 tsconfig.json
-tsconfig-types.json
+tsconfig.build.json

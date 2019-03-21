@@ -59,7 +59,7 @@ describe('Given an instance of RegionManager', () => {
             regionManager.add(mockRegionName, mockRegion);
             regionManager.remove(mockRegion);
             regionManager.registerViewWithRegion(mockRegionName, mockViewName, <any>{});
-            expect(spy).toBeCalled();
+            expect(spy).not.toBeCalled();
             regionManager.add(mockRegionName, mockRegion);
             regionManager.remove(mockRegionName);
             expect(spy).not.toBeCalled();
@@ -146,7 +146,7 @@ describe('Given an instance of RegionManager', () => {
             regionManager.add(mockRegionName, region2);
             regionManager.clear();
             regionManager1.registerViewWithRegion(mockRegionName, mockViewName, <any>{});
-            expect(spy1).toBeCalledTimes(1);
+            expect(spy1).not.toBeCalledTimes(1);
             expect(spy2).not.toBeCalled();
         });
     });

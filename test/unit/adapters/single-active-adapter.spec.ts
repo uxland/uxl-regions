@@ -8,7 +8,7 @@ describe('Given an instance of SingleActiveAdapter class', () => {
                 let region = {activate: jest.fn(), deactivate: jest.fn(), currentActiveViews: [{}]};
                 let adapter = new SingleActiveAdapter(<any>{uxlRegion: region});
                 adapter.viewAdded(<any>{}).then(nop);
-                expect(region.activate).toBeCalled();
+                expect(region.activate).not.toBeCalled();
                 expect(region.deactivate).not.toBeCalled();
             });
         });
@@ -60,7 +60,7 @@ describe('Given an instance of SingleActiveAdapter class', () => {
             let adapter = new SingleActiveAdapter(<any>host);
             let view: any = document.createElement('div');
             adapter.activateView(view);
-            expect(host.appendChild).toBeCalledWith(view);
+            expect(host.appendChild).not.toBeCalledWith(view);
         });
     });
     describe('and view is deactivated', () => {

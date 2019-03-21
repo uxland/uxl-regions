@@ -12,7 +12,7 @@ describe('Given an instance of AutoPopulateBehavior', () =>{
             let behavior = new AutoPopulateBehavior(<any>region);
             behavior.attach();
             expect(region.regionManager.getRegisteredViews).toBeCalledWith(regionName);
-            expect(region.addView).toContain(2);
+            expect(region.addView).toBeCalledTimes(2);
             expect(region.addView.mock.calls[0]).toEqual(['v1',{}]);
             expect(region.addView.mock.calls[1]).toEqual(['v2',{}]);
         });

@@ -3,13 +3,13 @@ import {nop} from "@uxland/uxl-utilities";
 
 describe('Given an instance of MultipleActiveAdapter class', () => {
     describe('and adding a view', () => {
-        it('should activate view in region', () => {
+        it('should activate view in region', async() => {
             let region: any = {activate: jest.fn()};
             let host = {uxlRegion: region};
             let adapter = new MultipleActiveAdapter(<any>host);
             let view: any = {};
-            adapter.viewAdded(view).then(nop);
-            expect(region.activate.calledOnceWith(view));
+            await adapter.viewAdded(view).then(nop);
+            expect(region.activate).toBeCalledWith(view)
         })
     });
     describe('when inserting a view in region host', () => {

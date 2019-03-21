@@ -3,6 +3,7 @@ import {regionFactory} from "../../src";
 import {RegionAdapterRegistry} from "../../src";
 import {when} from 'jest-when';
 const regionName = 'region';
+
 describe('when invoking `regionFactory` method', () =>{
     beforeEach(() =>{
         jest.resetAllMocks();
@@ -17,7 +18,7 @@ describe('when invoking `regionFactory` method', () =>{
         let target: IRegionHost = <any>document.createElement('div');
         let regionDefinition = {name: regionName, targetId: 'regionId'};
         const fn = jest.fn();
-        when(fn).calledWith('regionId').mockReturnValue(target);
+        when(fn).calledWith('#regionId').mockReturnValue(target);
         let host: any = {shadowRoot: {querySelector: fn}};
 
         let region = regionFactory(regionDefinition, host, regionManager, registry);
@@ -39,7 +40,7 @@ describe('when invoking `regionFactory` method', () =>{
         let target: IRegionHost = <any>document.createElement('div');
         let regionDefinition = {name: regionName, targetId: 'regionId', scoped: true};
         const fn = jest.fn();
-        when(fn).calledWith('regionId').mockReturnValue(target);
+        when(fn).calledWith('#regionId').mockReturnValue(target);
 
         let host: any = {shadowRoot: {querySelector: fn}};
         let region = regionFactory(regionDefinition, host, regionManager, registry);
@@ -59,7 +60,6 @@ describe('when invoking `regionFactory` method', () =>{
     });
     it('should raise error if no adapter', () =>{
         let regionManager: any = {};
-        let adapter = {};
         let registry = new RegionAdapterRegistry();
         //Adapter factory returns null
         let adapterFactory = jest.fn().mockReturnValue(null);
