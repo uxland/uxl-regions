@@ -3,13 +3,13 @@ module.exports = {
   setupFilesAfterEnv: ['./test/unit/setup.ts'],
   transformIgnorePatterns:[],
   transform:{
-    "^.+\\\\node_modules\\\\lit-element\\\\.*?\\\\*?\.js$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
-    "^.+\\node_modules\\lit-element\\.*?\\*?\.js$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
-    "^.+\/node_modules\/lit-element\/.*?\/*?\.js$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
-    "^.+\\\\node_modules\\\\lit-html\\\\.*?\\\\*?\.js$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
-    "^.+\\node_modules\\lit-html\\.*?\\*?\.js$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
-    "^.+\/node_modules\/lit-html\/.*?\/*?\.js$" : "<rootDir>/node_modules/ts-jest/preprocessor.js",
-    "^.+\\.ts$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
-    "^.+\.ts$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    "^.+\\\\node_modules\\\\lit-element\\\\.*?\\\\*?\.js$": "ts-jest",
+    "^.+\\node_modules\\lit-element\\.*?\\*?\.js$": "ts-jest",
+    "^.+\/node_modules\/lit-element\/.*?\/*?\.js$": "ts-jest",
+    "^.+\\\\node_modules\\\\lit-html\\\\.*?\\\\*?\.js$": "ts-jest",
+    "^.+\\node_modules\\lit-html\\.*?\\*?\.js$": "ts-jest",
+    "^.+\/node_modules\/lit-html\/.*?\/*?\.js$" : "ts-jest",
+    "^.+\\.ts$": "ts-jest",
+    "^.+\.ts$": "ts-jest"
   }
 };
