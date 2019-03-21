@@ -1,4 +1,5 @@
+src/
 test/
-mochawesome-report/
 polymer.json
 tsconfig.json
+tsconfig.build.json

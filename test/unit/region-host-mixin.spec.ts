@@ -1,26 +1,19 @@
-import {RegionHostMixin} from "../../src/region-host-mixin";
-import * as sinon from 'sinon';
-import {IRegion} from "../../src";
-import {expect} from 'chai';
-import {regionsProperty} from "../../src/region-decorator";
-import * as regionFactory from '../../src/region-factory';
+import {RegionHostMixin} from "../../src";
+import {regionsProperty} from "../../src";
 
 class Base {
-    connectedCallback() {
-
-    }
     disconnectedCallback(){}
     shadowRoot = {
         querySelector: () => ({})
     };
 }
 
-const regionManager = {add: (name: string, region: IRegion) => this};
+const regionManager = {add: () => this};
 const adapterRegistry: any = {};
 describe('Given a component that extends RegionHostMixin', () => {
     beforeEach(() =>{
-        sinon.reset();
-        sinon.restore();
+        jest.resetAllMocks();
+        jest.restoreAllMocks();
     });
     it('should create defined regions', () => {
         /*class Component extends RegionHostMixin<Base>(<any>regionManager, adapterRegistry)(Base) {
@@ -65,22 +58,22 @@ describe('Given a component that extends RegionHostMixin', () => {
         const secondRegion = {name: 'region2', targetId: 'region#2'};
         Component[regionsProperty] = {firstRegion, secondRegion};
         let c: any = new Component();
-        c.firstRegion = {regionManager:{remove: sinon.stub()}};
-        c.secondRegion = {regionManager: {remove: sinon.stub()}};
+        c.firstRegion = {regionManager:{remove: jest.fn()}};
+        c.secondRegion = {regionManager: {remove: jest.fn()}};
         (<Base>c).disconnectedCallback();
-        expect(c.firstRegion.regionManager.remove.calledOnce).to.be.true;
-        expect(c.secondRegion.regionManager.remove.calledOnce).to.be.true;
+        expect(c.firstRegion.regionManager.remove).toBeCalledTimes(1);
+        expect(c.secondRegion.regionManager.remove).toBeCalledTimes(1);
     });
     it('should dettach behaviors from region on disconnected',() =>{
-        const behaviors = [{detach: sinon.stub()}, {detach: sinon.stub()}];
+        const behaviors = [{detach: jest.fn()}, {detach: jest.fn()}];
         class Component extends RegionHostMixin(<any>regionManager, adapterRegistry)(<any>Base) {
         }
 
         const firstRegion = {name: 'region1', targetId: 'region#1'};
         Component[regionsProperty] = {firstRegion};
         let c: any = new Component();
-        c.firstRegion = {regionManager:{remove: sinon.stub()}, adapter:{behaviors}};
+        c.firstRegion = {regionManager:{remove: jest.fn()}, adapter:{behaviors}};
         (<Base>c).disconnectedCallback();
-        behaviors.forEach(b => expect(b.detach.calledOnce).to.be.true);
+        behaviors.forEach(b => expect(b.detach).toBeCalledTimes(1));
     });
 });

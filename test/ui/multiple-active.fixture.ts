@@ -1,7 +1,7 @@
+/*
 import {regionManager} from "../../src/region-manager";
 import {RegionApp} from "./components/region-app";
 
-const {expect} = chai;
 
 const delay = (amount = 100) => new Promise(resolve => setTimeout(resolve, amount));
 
@@ -81,3 +81,4 @@ describe('When having a multiple active region', () =>{
 });
 
 //ToDO: comprovar que s'oculten els elements. Comprovar que si s'elimina un component del dom també s'elimina de la llista d'elements de la regió
+*/

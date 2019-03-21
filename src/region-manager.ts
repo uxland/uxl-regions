@@ -1,6 +1,6 @@
 import {ViewDefinition} from "./view-definition";
 import {IRegion} from "./region";
-import {invariant} from '@uxland/uxl-utilities/invariant';
+import {invariant} from '@uxland/uxl-utilities';
 
 class Registry {
     private viewsByRegion: {[regionName: string]: {key: string, view: ViewDefinition}[]} = {};

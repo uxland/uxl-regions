@@ -1,8 +1,7 @@
 import {Constructor, LitElement} from "lit-element";
-import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
 import {property} from "lit-element/lib/decorators";
-import {propertiesObserver} from '@uxland/uxl-utilities/properties-observer';
-import {MixinFunction} from "@uxland/uxl-utilities/types";
+import {propertiesObserver} from '@uxland/uxl-utilities';
+import {MixinFunction, dedupingMixin} from "@uxland/uxl-utilities";
 import {ViewDefinition} from "./view-definition";
 export interface IRegionView {
     active: boolean;

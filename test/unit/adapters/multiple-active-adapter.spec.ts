@@ -1,34 +1,31 @@
-import {MultipleActiveAdapter} from "../../../src/adapters/multiple-active-adapter";
-import * as sinon from 'sinon';
-import {expect} from 'chai';
+import {MultipleActiveAdapter} from "../../../src";
+import {nop} from "@uxland/uxl-utilities";
 
-describe('Given an instance of MultipleActiveAdapter class', () =>{
-    describe('and adding a view', () =>{
-        it('should activate view in region', () =>{
-            let region: any = {activate: sinon.stub()};
+describe('Given an instance of MultipleActiveAdapter class', () => {
+    describe('and adding a view', () => {
+        it('should activate view in region', async() => {
+            let region: any = {activate: jest.fn()};
             let host = {uxlRegion: region};
             let adapter = new MultipleActiveAdapter(<any>host);
             let view: any = {};
-            adapter.viewAdded(view);
-            expect(region.activate.calledOnceWith(view));
+            await adapter.viewAdded(view).then(nop);
+            expect(region.activate).toBeCalledWith(view)
         })
     });
-    describe('when inserting a view in region host', () =>{
-        it('should take sortHint into account', () =>{
-            let views = [{sortHint: '000'}, {sortHint: '001'} , {sortHint: '002'}];
+    describe('when inserting a view in region host', () => {
+        it('should take sortHint into account', () => {
+            let views = [{sortHint: '000'}, {sortHint: '001'}, {sortHint: '002'}];
             let viewComponent = document.createElement('div');
             let host = document.createElement('div');
-            let region = {currentActiveViews: views};
-            host['uxlRegion'] = region;
+            host['uxlRegion'] = {currentActiveViews: views};
             host.appendChild(viewComponent);
-            let insertStub = sinon.stub(host, 'insertBefore');
+            let insertStub = jest.spyOn(host, 'insertBefore');
             let newComponent = document.createElement('span');
             newComponent['view'] = views[0];
             let adapter = new MultipleActiveAdapter(<any>host);
             adapter['addViewToHost'](<any>newComponent);
-            // @ts-ignore
-            expect(insertStub.calledOnce).to.be.true;
-            sinon.reset();
+            expect(insertStub).toBeCalledTimes(1);
+            jest.resetAllMocks();
         })
     })
 });

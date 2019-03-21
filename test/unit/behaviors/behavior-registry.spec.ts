@@ -1,6 +1,4 @@
-import {BehaviorRegistry} from "../../../src/behaviors/behavior-registry";
-import {IRegion, IRegionBehavior} from "../../../src";
-import {expect} from 'chai';
+import {BehaviorRegistry, IRegion, IRegionBehavior} from "../../../src";
 describe('Given an instance of BehaviorRegistry class', () =>{
     describe('an a behavior is registered', () =>{
         it('should be retrieved on behaviors property', () =>{
@@ -16,7 +14,7 @@ describe('Given an instance of BehaviorRegistry class', () =>{
             }
 
             registry.register(MyBehavior);
-            expect(registry.behaviors).to.contain(MyBehavior)
+            expect(registry.behaviors).toContain(MyBehavior);
             class MyOtherBehavior implements IRegionBehavior{
                 constructor(region: IRegion){}
                 attach(): void {
@@ -26,8 +24,8 @@ describe('Given an instance of BehaviorRegistry class', () =>{
                 }
             }
             registry.register(MyOtherBehavior);
-            expect(registry.behaviors).to.contain(MyBehavior);
-            expect(registry.behaviors).to.contain(MyOtherBehavior);
+            expect(registry.behaviors).toContain(MyBehavior);
+            expect(registry.behaviors).toContain(MyOtherBehavior);
         });
         it('should not add duplicated items', () =>{
             let registry = new BehaviorRegistry();
@@ -43,7 +41,7 @@ describe('Given an instance of BehaviorRegistry class', () =>{
 
             registry.register(MyBehavior);
             registry.register(MyBehavior);
-            expect(registry.behaviors.filter(b => b === MyBehavior).length).to.be.equal(1);
-        })
-    })
-})
+            expect(registry.behaviors.filter(b => b === MyBehavior).length).toBe(1);
+        });
+    });
+});

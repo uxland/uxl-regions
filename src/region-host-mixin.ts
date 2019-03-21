@@ -1,4 +1,3 @@
-import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
 import {IRegion, RegionDefinition} from "./region";
 import {regionsProperty} from "./region-decorator";
 import {IRegionManager, regionManager} from "./region-manager";
@@ -6,7 +5,7 @@ import {regionFactory} from "./region-factory";
 import {regionAdapterRegistry, RegionAdapterRegistry} from "./region-adapter-registry";
 import {factory} from "./adapters/multiple-active-adapter";
 import {Constructor, LitElement, PropertyValues} from "lit-element";
-import {MixinFunction} from "@uxland/uxl-utilities/types";
+import {MixinFunction, dedupingMixin} from "@uxland/uxl-utilities";
 
 export interface IRegionHostMixin<T = any> extends LitElement{
     new() : IRegionHostMixin<T> & T & LitElement;

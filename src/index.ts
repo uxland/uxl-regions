@@ -8,3 +8,6 @@ export * from './region-view';
 export * from './validate-view';
 export * from './view-definition';
 export * from './view-factory';
+export * from './adapters';
+export * from './behaviors';
+export * from './utilities';
