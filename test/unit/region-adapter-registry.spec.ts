@@ -1,8 +1,8 @@
 import {adapterFactory, RegionAdapterRegistry} from "../../src";
-class Element1 extends Element{
+class Element1{
 
 }
-class Element2 extends Element{
+class Element2{
 
 }
 
@@ -14,8 +14,8 @@ describe('Given an instance of RegionAdapterRegistry', () => {
             let regionAdapterRegistry = new RegionAdapterRegistry();
             regionAdapterRegistry.registerAdapterFactory(Element1, factory);
             regionAdapterRegistry.registerAdapterFactory(Element2, factory2);
-            expect(regionAdapterRegistry.getAdapterFactory(new Element1())).toBe(factory);
-            expect(regionAdapterRegistry.getAdapterFactory(new Element2())).toBe(factory2);
+            expect(regionAdapterRegistry.getAdapterFactory(<any>(new Element1()))).toBe(factory);
+            expect(regionAdapterRegistry.getAdapterFactory(<any>(new Element2()))).toBe(factory2);
         });
         it('should allow to register by tag name', () => {
             let factory: adapterFactory = () => <any>{};
@@ -42,7 +42,7 @@ describe('Given an instance of RegionAdapterRegistry', () => {
 
             regionAdapterRegistry.registerAdapterFactory(Element1, factory1);
             regionAdapterRegistry.registerAdapterFactory(Element1, factory2);
-            expect(regionAdapterRegistry.getAdapterFactory(new Element1())).toBe(factory2);
+            expect(regionAdapterRegistry.getAdapterFactory(<any>(new Element1()))).toBe(factory2);
 
             regionAdapterRegistry.registerAdapterFactory('SPAN', factory2);
             regionAdapterRegistry.registerAdapterFactory('SPAN', factory1);
@@ -59,7 +59,7 @@ describe('Given an instance of RegionAdapterRegistry', () => {
             regionAdapterRegistry.registerAdapterFactory(Element1, factory1);
             regionAdapterRegistry.registerDefaultAdapterFactory(factory2);
             expect(regionAdapterRegistry.getAdapterFactory(document.createElement('span'))).toBe(factory2);
-            expect(regionAdapterRegistry.getAdapterFactory(new Element1())).toBe(factory1);
+            expect(regionAdapterRegistry.getAdapterFactory(<any>(new Element1()))).toBe(factory1);
         });
         it('should return null if no default factory defined', () => {
             let regionAdapterRegistry = new RegionAdapterRegistry();

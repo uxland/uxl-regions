@@ -1,7 +1,33 @@
-const  renameProperty = (a) => a;
-Object.assign(global, {
-    JSCompiler_renameProperty: renameProperty,
-    //MutationObserver: mutationObserver
-});
+const { JSDOM } = require('jsdom');
 
-//const aux = document;
+
+const jsdom = new JSDOM('<!doctype html><html lang="ca"><body></body></html>');
+//@ts-ignore
+const { window } = jsdom;
+
+function copyProps(src, target) {
+    Object.defineProperties(target, {
+        ...Object.getOwnPropertyDescriptors(src),
+        ...Object.getOwnPropertyDescriptors(target),
+    });
+}
+//@ts-ignore
+global.window = window;
+//@ts-ignore
+global.document = window.document;
+//@ts-ignore
+global.navigator = {
+    userAgent: 'node.js',
+};
+
+const raf = require('raf');
+raf.polyfill(window);
+raf.polyfill(global);
+
+copyProps(window, global);
+
+
+const mo = require('mutation-observer');
+window['MutationObserver'] = mo;
+//@ts-ignore
+global.MutationObserver = mo;

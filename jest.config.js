@@ -1,5 +1,5 @@
 module.exports = {
-  testEnvironment: '@skatejs/ssr/jest',
+  testEnvironment: 'node',
   setupFilesAfterEnv: ['./test/unit/setup.ts'],
   transformIgnorePatterns:[],
   transform:{
@@ -9,6 +9,9 @@ module.exports = {
     "^.+\\\\node_modules\\\\lit-html\\\\.*?\\\\*?\.js$": "ts-jest",
     "^.+\\node_modules\\lit-html\\.*?\\*?\.js$": "ts-jest",
     "^.+\/node_modules\/lit-html\/.*?\/*?\.js$" : "ts-jest",
+    "^.+\\\\node_modules\\\\.*?\\\\es\\\\.*?\\\\*?\.js$": "ts-jest",
+    "^.+\\node_modules\\.*?\\es\\.*?\\*?\.js$": "ts-jest",
+    "^.+\/node_modules\/.*?\/es\/.*?\/*?\.js$" : "ts-jest",
     "^.+\\.ts$": "ts-jest",
     "^.+\.ts$": "ts-jest"
   }
