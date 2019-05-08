@@ -18,11 +18,14 @@ export class AdapterBase implements IRegionAdapter{
 
     deactivateView(view: HTMLElement & ViewComponent) {
         if(view.view.removeFromDomWhenDeactivated){
-            this.host.removeChild(view);
-            this.host.uxlRegion.viewRemovedFromDom(view.view);
+            this.removeViewFromHost(view);
         }
         else
             view.hidden = true;
+    }
+    
+    removeView(view: HTMLElement & ViewComponent) {
+        this.removeViewFromHost(view);
     }
 
     viewAdded(view: ViewDefinition) {
@@ -31,4 +34,10 @@ export class AdapterBase implements IRegionAdapter{
     protected addViewToHost(view: HTMLElement & ViewComponent){
         this.host.appendChild(view);
     }
+
+    protected removeViewFromHost(view: HTMLElement & ViewComponent){
+        this.host.removeChild(view);
+        this.host.uxlRegion.viewRemovedFromDom(view.view);
+    }
+
 }
