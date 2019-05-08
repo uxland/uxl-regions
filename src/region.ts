@@ -15,6 +15,7 @@ export interface IRegionBehavior {
 export interface IRegionAdapter {
     activateView(view: HTMLElement & ViewComponent);
     deactivateView(view: HTMLElement & ViewComponent);
+    removeView(view: HTMLElement & ViewComponent);
     viewAdded(view: ViewDefinition);
     behaviors: IRegionBehavior[];
 }
@@ -71,7 +72,8 @@ export class Region implements IRegion{
     }
 
     removeView(view: string) {
-        this.deactivate(this.getView(view));
+        this.deactivate(view);
+        this.remove(view);
         delete this.views[view as string];
     }
 
@@ -97,6 +99,13 @@ export class Region implements IRegion{
     }
     viewRemovedFromDom(view: ViewDefinition){
         this.components.delete(view);
+    }
+    remove(view: string | ViewDefinition){
+        let v: ViewDefinition = typeof view === 'string' ? this.getView(view) : view as ViewDefinition;
+        let component = this.components.get(v);
+        if (component) {
+            this.adapter.removeView(component);
+        }
     }
     deactivate(view: string | ViewDefinition) {
         let v: ViewDefinition = typeof view === 'string' ? this.getView(view) : view as ViewDefinition;

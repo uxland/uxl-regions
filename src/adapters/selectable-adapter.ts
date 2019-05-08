@@ -22,8 +22,7 @@ export class SelectableAdapter extends SingleActiveAdapter{
     deactivateView(view: HTMLElement & ViewComponent){
         if(this.host[this.selectedProperty] === view.viewKey){
             this.host[this.selectedProperty] = null;
-            let defaultView = this.host.uxlRegion.currentViews.find(v => v.isDefault);
-            defaultView && view.view !== defaultView && this.host.uxlRegion.activate(defaultView);
+            super.deactivateView(view);
         }
 
     }
