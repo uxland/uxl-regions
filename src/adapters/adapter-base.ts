@@ -17,7 +17,7 @@ export class AdapterBase implements IRegionAdapter{
     }
 
     deactivateView(view: HTMLElement & ViewComponent) {
-        if(view.view.removeFromDomWhenDeactivated){
+        if(view.view && view.view.removeFromDomWhenDeactivated){
             this.removeViewFromHost(view);
         }
         else

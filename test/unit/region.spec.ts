@@ -75,7 +75,15 @@ describe('Given an instance of Region', () => {
             region['views'] = {[mockViewName]: view};
             let spy = jest.spyOn(region, 'deactivate');
             region.removeView(mockViewName);
-            expect(spy).toBeCalledWith(view);
+            expect(spy).toBeCalledWith(mockViewName);
+        });
+        it('should remove it', () => {
+            let region = regionFactory();
+            let view = {htmlTag: 'div'};
+            region['views'] = {[mockViewName]: view};
+            let spy = jest.spyOn(region, 'remove');
+            region.removeView(mockViewName);
+            expect(spy).toBeCalledWith(mockViewName);
         });
     });
     describe('and a view is activated', () => {
