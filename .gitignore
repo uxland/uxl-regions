@@ -10,6 +10,4 @@ test/**/*.js.map
 !test/unit/tests.loader.js
 demo/**/*.js
 demo/**/*.js.map
-mochawesome-report/
-package-lock.json
 .DS_Store

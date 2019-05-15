@@ -5,16 +5,16 @@ import {IRegionAdapter, ViewComponent} from "../../src";
 import {when} from 'jest-when';
 
 const mockViewName = 'my-view';
-const mockReginName = 'my-region';
+const mockReginnName = 'my-region';
 describe('Given an instance of Region', () => {
-    let validateViewStub: jest.Mock;
+    let validateViewStub: any;
     const adapterFactory: () => IRegionAdapter = () => (<any>{
         activateView: jest.fn(),
         deactivateView: jest.fn(),
         viewAdded: jest.fn()
     });
-    const regionFactory = () => new Region(mockReginName, null, document.createElement('div') as any, adapterFactory(), {
-        name: mockReginName,
+    const regionFactory = () => new Region(mockReginnName, null, document.createElement('div') as any, adapterFactory(), {
+        name: mockReginnName,
         targetId: ''
     });
     beforeEach(() => {
@@ -249,8 +249,8 @@ describe('Given an instance of Region', () => {
         it('should raise exception if view does not exists', () => {
             let region = regionFactory();
             jest.spyOn(region, 'containsView').mockReturnValue(false);
-            expect(() => region.isViewActive('my-view2')).toThrow(`region ${mockReginName} doest not contain this view`);
-            expect(() => region.isViewActive({})).toThrow(`region ${mockReginName} doest not contain this view`);
+            expect(() => region.isViewActive('my-view2')).toThrow(`region ${mockReginnName} doest not contain this view`);
+            expect(() => region.isViewActive({})).toThrow(`region ${mockReginnName} doest not contain this view`);
             jest.resetAllMocks();
             jest.restoreAllMocks();
             jest.spyOn(region, 'containsView').mockReturnValue(true);
@@ -274,8 +274,8 @@ describe('Given an instance of Region', () => {
         it('should raise exception if view does not exists', () => {
             let region = regionFactory();
             jest.spyOn(region, 'containsView').mockReturnValue(false);
-            expect(() => region.toggleViewActive('my-view2')).toThrow(`region ${mockReginName} doest not contain this view`);
-            expect(() => region.toggleViewActive({})).toThrow(`region ${mockReginName} doest not contain this view`);
+            expect(() => region.toggleViewActive('my-view2')).toThrow(`region ${mockReginnName} doest not contain this view`);
+            expect(() => region.toggleViewActive({})).toThrow(`region ${mockReginnName} doest not contain this view`);
             jest.resetAllMocks();
             jest.restoreAllMocks();
             jest.spyOn(region, 'containsView').mockReturnValue(true);
