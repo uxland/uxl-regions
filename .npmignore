@@ -1,5 +1,6 @@
 src/
 test/
+demo/
 polymer.json
 tsconfig.json
 tsconfig.build.json
