@@ -11,10 +11,7 @@ export class SelectableAdapter extends SingleActiveAdapter{
         host[this.attrForSelectedProperty] = this.attrForSelected;
     }
     activateView(view: HTMLElement & ViewComponent) {
-        this.host.uxlRegion.currentActiveViews.filter(v => v !== view.view)
-            .forEach(v => this.host.uxlRegion.deactivate(v));
-        if(!this.host.contains(view))
-            this.addViewToHost(view);
+        super.activateView(view);
         if(!view[this.attrForSelected])
             view[this.attrForSelected] = view.viewKey;
         this.host[this.selectedProperty] = view.viewKey;
