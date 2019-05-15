@@ -20,7 +20,7 @@ describe('Given an instance of Region', () => {
     beforeEach(() => {
         jest.restoreAllMocks();
         jest.resetAllMocks();
-        validateViewStub = jest.spyOn(validateView, 'validateView').mockReturnValue(true);
+        validateViewStub = jest.spyOn(validateView, 'validateView').mockImplementation(() => true);
     });
     describe('and a view is added', () => {
 
