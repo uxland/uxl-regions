@@ -63,8 +63,6 @@ describe('Given an instance of RegionAdapterRegistry', () => {
         });
         it('should return null if no default factory defined', () => {
             let regionAdapterRegistry = new RegionAdapterRegistry();
-            //ensure registry is empty
-            regionAdapterRegistry['adapterRegistry'] = new Map<any, adapterFactory>();
             expect(regionAdapterRegistry.getAdapterFactory(document.createElement('div'))).toBeNull();
         });
     });
