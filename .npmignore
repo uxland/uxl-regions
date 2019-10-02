@@ -4,3 +4,10 @@ demo/
 polymer.json
 tsconfig.json
 tsconfig.build.json
+coverage
+.travis.yml
+babel.config.js
+index.html
+jest.config.js
+README-template.md
+wct.config.json
