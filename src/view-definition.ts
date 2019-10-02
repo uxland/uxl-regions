@@ -10,7 +10,6 @@ export interface ViewDefinition {
   isDefault?: boolean;
   removeFromDomWhenDeactivated?: boolean;
   sortHint?: string;
-  route?: string;
 }
 export interface ViewComponent {
   view: ViewDefinition;
