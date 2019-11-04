@@ -16,6 +16,7 @@ export interface RegionHostMixin extends LitElement {
 export interface RegionHostMixinConstructor extends LitElement {
   new (...args: any[]): RegionHostMixin & LitElement;
 }
+
 export type RegionHostMixinFunction = MixinFunction<RegionHostMixinConstructor>;
 
 const getUxlRegions: (item: any) => { [key: string]: RegionDefinition } = item => item.constructor[regionsProperty] || {};
