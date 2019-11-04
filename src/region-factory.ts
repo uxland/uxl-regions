@@ -16,10 +16,16 @@ export const regionFactory = async (
 ) => {
   await (host as any)._updatePromise;
   let target = host.shadowRoot.querySelector(`#${definition.targetId}`);
-  let adapter = definition.adapterFactory ? definition.adapterFactory(definition, <any>target) : createAdapter(definition, target, adapterRegistry);
-  invariant(adapter, 'No region adapter found for the host');
-  let targetRegionManager = definition.scoped ? regionManager.createRegionManager() : regionManager;
-  let region = new Region(definition.name, targetRegionManager, target as any, adapter, definition);
-  targetRegionManager.add(definition.name, region);
-  return region;
+  if(target){
+    let adapter = definition.adapterFactory ? definition.adapterFactory(definition, <any>target) : createAdapter(definition, target, adapterRegistry);
+    invariant(adapter, 'No region adapter found for the host');
+    let targetRegionManager = definition.scoped ? regionManager.createRegionManager() : regionManager;
+    let region = new Region(definition.name, targetRegionManager, target as any, adapter, definition);
+    targetRegionManager.add(definition.name, region);
+    return region;
+  }
+  else
+    console.warn(`region host with id ${definition.targetId} not found for region named ${definition.name}`);
+  return  undefined;
+
 };
