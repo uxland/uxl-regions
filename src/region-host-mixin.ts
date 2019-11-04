@@ -11,54 +11,63 @@ export interface IRegionHostMixin<T = any> extends LitElement {
   new (): IRegionHostMixin<T> & T & LitElement;
 }
 export interface RegionHostMixin extends LitElement {
-  regionsCreated(): void;
+  regionsCreated(newRegions: IRegion[]): void;
 }
 export interface RegionHostMixinConstructor extends LitElement {
   new (...args: any[]): RegionHostMixin & LitElement;
 }
-
-const requiresCreation: (component: RegionHostMixin) => (definition: RegionDefinition) => boolean = component => definition =>
+interface RegionDefinitionArgs {
+  key: string;
+  definition: RegionDefinition;
+}
+const requiresCreation: (component: RegionHostMixin) => (definition: RegionDefinitionArgs) => boolean = component => definition =>
   R.pipe(
-    R.prop(definition.name),
+    R.prop(definition.definition.name),
     R.isNil
   )(component);
-const requiresDeletion: (component: RegionHostMixin) => (definition: RegionDefinition) => boolean = component => definition =>
-  !requiresCreation(component)(definition) && R.isNil(component.shadowRoot.querySelector(`#${definition.targetId}`));
-const deleteRegion: (component: RegionHostMixin) => (definition: RegionDefinition) => Promise<RegionDefinition> = component => definition => {
-  let region: IRegion = component[definition.name];
+const requiresDeletion: (component: RegionHostMixin) => (definition: RegionDefinitionArgs) => boolean = component => definition =>
+  !requiresCreation(component)(definition) && R.isNil(component.shadowRoot.querySelector(`#${definition.definition.targetId}`));
+
+const deleteRegion: (component: RegionHostMixin) => (definition: RegionDefinitionArgs) => Promise<RegionDefinitionArgs> = component => args => {
+  let region: IRegion = component[args.key];
   region.regionManager.remove(region);
   let behaviors = region.adapter ? region.adapter.behaviors || [] : [];
   behaviors.forEach(b => b.detach());
-  return Promise.resolve(definition);
+  delete component[args.key];
+  return Promise.resolve(undefined);
 };
+
 const createRegion: (
   component: RegionHostMixin,
   rm: IRegionManager,
   registry: RegionAdapterRegistry
-) => (definition: RegionDefinition) => Promise<RegionDefinition> = (component, rm, registry) => definition =>
-  regionFactory(definition, component, rm, registry)
+) => (definitionArgs: RegionDefinitionArgs) => Promise<RegionDefinitionArgs> = (component, rm, registry) => definitionArgs =>
+  regionFactory(definitionArgs.definition, component, rm, registry)
     .then(region => {
       if (region) {
-        component[definition.name] = region;
+        component[definitionArgs.key] = region;
         let behaviors = region.adapter ? region.adapter.behaviors || [] : [];
         behaviors.forEach(b => b.attach());
+        return region;
       }
+      else return undefined;
     })
-    .catch()
-    .then(R.always(definition));
+    .catch(R.always(undefined));
 
 const handleRegionCreation = (component: RegionHostMixin, regionManager1: IRegionManager, registry: RegionAdapterRegistry) => {
   const creationRequired = requiresCreation(component);
   const deletionRequired = requiresDeletion(component);
   const deletion = deleteRegion(component);
   const creation = createRegion(component, regionManager1, registry);
-  return (definition: RegionDefinition) =>
-    R.cond([[creationRequired, creation], [deletionRequired, deletion], [R.T, R.always(Promise.resolve(definition))]])(definition);
+  return (args: RegionDefinitionArgs) =>
+    R.cond([[creationRequired, creation], [deletionRequired, deletion], [R.T, R.always(Promise.resolve(undefined))]])(args);
 };
 
 export type RegionHostMixinFunction = MixinFunction<RegionHostMixinConstructor>;
 
-const getUxlRegions: (item: any) => { [key: string]: RegionDefinition } = item => item.constructor[regionsProperty] || {};
+type RegionDefinitions = {[key: string]: RegionDefinition};
+const getUxlRegions: (item: any) => RegionDefinitions = item => item.constructor[regionsProperty] || {};
+const toRegionDefinitionArgs: (regions: RegionDefinitions) => RegionDefinitionArgs[] = regions => R.pipe(R.keys, R.map(key => <RegionDefinitionArgs>{key, definition: regions[key]}))(regions);
 export const RegionHostMixin: (regionManager: IRegionManager, adapterRegistry: RegionAdapterRegistry) => RegionHostMixinFunction = (
   regionManager1,
   adapterRegistry
@@ -70,15 +79,19 @@ export const RegionHostMixin: (regionManager: IRegionManager, adapterRegistry: R
         let regions = getUxlRegions(this);
         const handleCreation = handleRegionCreation(this, regionManager1, adapterRegistry);
         microTask.run(async () => {
-          await R.pipe(
-            R.values,
-            R.forEach(handleCreation)
+          R.pipe(
+            toRegionDefinitionArgs,
+            R.forEach(handleCreation),
+            R.bind(Promise.all, Promise),
+            R.then(R.reject(R.isNil)),
+            R.then(R.bind(this.regionsCreated, this))
           )(regions);
-          this.regionsCreated();
         });
       }
 
-      regionsCreated() {}
+      regionsCreated(newRegions: IRegion[]) {
+
+      }
       disconnectedCallback(): void {
         super.disconnectedCallback();
         let regions = getUxlRegions(this);
