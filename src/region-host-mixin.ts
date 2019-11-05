@@ -5,7 +5,7 @@ import { regionFactory } from './region-factory';
 import { regionAdapterRegistry, RegionAdapterRegistry } from './region-adapter-registry';
 import { factory } from './adapters/multiple-active-adapter';
 import { Constructor, LitElement } from 'lit-element';
-import { MixinFunction, dedupingMixin} from '@uxland/uxl-utilities';
+import {MixinFunction, dedupingMixin, microTask} from '@uxland/uxl-utilities';
 import * as R from 'ramda';
 export interface IRegionHostMixin<T = any> extends LitElement {
   new (): IRegionHostMixin<T> & T & LitElement;
@@ -81,22 +81,47 @@ export const RegionHostMixin: (regionManager: IRegionManager, adapterRegistry: R
 ) =>
   dedupingMixin((superClass: Constructor<LitElement>) => {
     class RegionHostMixinClass extends superClass implements RegionHostMixin {
-      private _lastCreation: Promise<any> = Promise.resolve(true);
+      private _lastCreation: Promise<any> = undefined;
+      private _updateRequired: boolean;
       protected updated(_changedProperties: Map<PropertyKey, unknown>): void {
         super.updated(_changedProperties);
-        let regions = getUxlRegions(this);
-        const handleCreation = handleRegionCreation(this, regionManager1, adapterRegistry);
-        this._lastCreation = this._lastCreation.then(() =>
-          R.pipe(
-              toRegionDefinitionArgs,
-              R.forEach(handleCreation),
-              R.bind(Promise.all, Promise),
-              R.then(R.reject(R.isNil)),
-              R.then(R.bind(this.regionsCreated, this))
-          )(regions)
-        );
+        this.enqueueCreation();
       }
+      private createRegions(): Promise<any>{
+          let regions = getUxlRegions(this);
+          const handleCreation = handleRegionCreation(this, regionManager1, adapterRegistry);
+          return R.pipe(
+                  toRegionDefinitionArgs,
+                  R.forEach(handleCreation),
+                  R.bind(Promise.all, Promise),
+                  R.then(R.reject(R.isNil)),
+                  R.then(R.bind(this.regionsCreated, this))
+              )(regions);
+      }
+      private async runRegionCreation(){
+         return new Promise<any>(resolve => {
+             this.createRegions()
+                 .then(resolve)
+                 .catch(resolve)
+         });
 
+      }
+      private enqueueCreation(){
+          if(R.isNil(this._lastCreation)){
+              this._lastCreation = this.runRegionCreation().then(() =>{
+                  if(this._updateRequired){
+                      this._updateRequired = false;
+                      this._lastCreation = this.runRegionCreation();
+                  }
+                  else
+                      this._lastCreation = undefined;
+              });
+          }
+          else {
+              this._updateRequired = true;
+          }
+
+      }
       regionsCreated(newRegions: IRegion[]) {
 
       }
