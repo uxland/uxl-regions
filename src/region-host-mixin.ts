@@ -81,7 +81,7 @@ export const RegionHostMixin: (regionManager: IRegionManager, adapterRegistry: R
 ) =>
   dedupingMixin((superClass: Constructor<LitElement>) => {
     class RegionHostMixinClass extends superClass implements RegionHostMixin {
-      private debouncer: null;
+      private debounce: null;
       protected updated(_changedProperties: Map<PropertyKey, unknown>): void {
         super.updated(_changedProperties);
         this.create();
@@ -98,9 +98,8 @@ export const RegionHostMixin: (regionManager: IRegionManager, adapterRegistry: R
               )(regions);
       }
       private create(){
-          this.debouncer = <any>Debouncer.debounce(this.debouncer, timeOut.after(100), () => this.runRegionCreation());
+          this.debounce = <any>Debouncer.debounce(this.debounce, timeOut.after(100), () => this.runRegionCreation());
       }
-      //@debounce(100)
       private runRegionCreation(){
          return new Promise<any>(resolve => {
              this.createRegions()
@@ -110,7 +109,6 @@ export const RegionHostMixin: (regionManager: IRegionManager, adapterRegistry: R
 
       }
       regionsCreated(newRegions: IRegion[]) {
-
       }
       disconnectedCallback(): void {
         super.disconnectedCallback();
