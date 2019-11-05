@@ -1,11 +1,11 @@
-import { IRegion, RegionDefinition } from './region';
+import {IRegion, IRegionBehavior, RegionDefinition} from './region';
 import { regionsProperty } from './region-decorator';
 import { IRegionManager, regionManager } from './region-manager';
 import { regionFactory } from './region-factory';
 import { regionAdapterRegistry, RegionAdapterRegistry } from './region-adapter-registry';
 import { factory } from './adapters/multiple-active-adapter';
 import { Constructor, LitElement } from 'lit-element';
-import { MixinFunction, dedupingMixin, microTask } from '@uxland/uxl-utilities';
+import { MixinFunction, dedupingMixin} from '@uxland/uxl-utilities';
 import * as R from 'ramda';
 export interface IRegionHostMixin<T = any> extends LitElement {
   new (): IRegionHostMixin<T> & T & LitElement;
@@ -32,9 +32,13 @@ const deleteRegion: (component: RegionHostMixin) => (definition: RegionDefinitio
   let region: IRegion = component[args.key];
   region.regionManager.remove(region);
   let behaviors = region.adapter ? region.adapter.behaviors || [] : [];
-  behaviors.forEach(b => b.detach());
   delete component[args.key];
-  return Promise.resolve(undefined);
+  return R.pipe(
+      R.map((b: IRegionBehavior) => b.detach),
+      R.bind(Promise.all, Promise),
+      R.then(() => delete component[args.key]),
+      R.then(R.always(undefined))
+  )(behaviors);
 };
 
 const createRegion: (
@@ -47,8 +51,11 @@ const createRegion: (
       if (region) {
         component[definitionArgs.key] = region;
         let behaviors = region.adapter ? region.adapter.behaviors || [] : [];
-        behaviors.forEach(b => b.attach());
-        return region;
+        return R.pipe(
+            R.map((b: IRegionBehavior) => b.attach),
+            R.bind(Promise.all, Promise),
+            R.then(R.always(region))
+        )(behaviors);
       }
       else return undefined;
     })
@@ -79,15 +86,15 @@ export const RegionHostMixin: (regionManager: IRegionManager, adapterRegistry: R
         super.updated(_changedProperties);
         let regions = getUxlRegions(this);
         const handleCreation = handleRegionCreation(this, regionManager1, adapterRegistry);
-        this._lastCreation = this._lastCreation.then(() =>{
+        this._lastCreation = this._lastCreation.then(() =>
           R.pipe(
               toRegionDefinitionArgs,
               R.forEach(handleCreation),
               R.bind(Promise.all, Promise),
               R.then(R.reject(R.isNil)),
               R.then(R.bind(this.regionsCreated, this))
-          )(regions);
-        });
+          )(regions)
+        );
        /* microTask.run(async () => {
           R.pipe(
             toRegionDefinitionArgs,
