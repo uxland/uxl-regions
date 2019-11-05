@@ -5,7 +5,7 @@ import { regionFactory } from './region-factory';
 import { regionAdapterRegistry, RegionAdapterRegistry } from './region-adapter-registry';
 import { factory } from './adapters/multiple-active-adapter';
 import { Constructor, LitElement } from 'lit-element';
-import {MixinFunction, dedupingMixin, microTask} from '@uxland/uxl-utilities';
+import {MixinFunction, dedupingMixin, microTask, debounce, Debouncer, timeOut} from '@uxland/uxl-utilities';
 import * as R from 'ramda';
 export interface IRegionHostMixin<T = any> extends LitElement {
   new (): IRegionHostMixin<T> & T & LitElement;
@@ -81,11 +81,10 @@ export const RegionHostMixin: (regionManager: IRegionManager, adapterRegistry: R
 ) =>
   dedupingMixin((superClass: Constructor<LitElement>) => {
     class RegionHostMixinClass extends superClass implements RegionHostMixin {
-      private _lastCreation: Promise<any> = undefined;
-      private _updateRequired: boolean;
+      private debouncer: null;
       protected updated(_changedProperties: Map<PropertyKey, unknown>): void {
         super.updated(_changedProperties);
-        this.enqueueCreation();
+        this.create();
       }
       private createRegions(): Promise<any>{
           let regions = getUxlRegions(this);
@@ -98,28 +97,16 @@ export const RegionHostMixin: (regionManager: IRegionManager, adapterRegistry: R
                   R.then(R.bind(this.regionsCreated, this))
               )(regions);
       }
-      private async runRegionCreation(){
+      private create(){
+          this.debouncer = <any>Debouncer.debounce(this.debouncer, timeOut.after(100), () => this.runRegionCreation());
+      }
+      //@debounce(100)
+      private runRegionCreation(){
          return new Promise<any>(resolve => {
              this.createRegions()
                  .then(resolve)
                  .catch(resolve)
          });
-
-      }
-      private enqueueCreation(){
-          if(R.isNil(this._lastCreation)){
-              this._lastCreation = this.runRegionCreation().then(() =>{
-                  if(this._updateRequired){
-                      this._updateRequired = false;
-                      this._lastCreation = this.runRegionCreation();
-                  }
-                  else
-                      this._lastCreation = undefined;
-              });
-          }
-          else {
-              this._updateRequired = true;
-          }
 
       }
       regionsCreated(newRegions: IRegion[]) {
