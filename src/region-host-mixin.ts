@@ -40,7 +40,6 @@ const deleteRegion: (component: RegionHostMixin) => (definition: RegionDefinitio
       R.then(R.always(undefined))
   )(behaviors);
 };
-
 const createRegion: (
   component: RegionHostMixin,
   rm: IRegionManager,
