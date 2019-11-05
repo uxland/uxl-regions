@@ -95,15 +95,6 @@ export const RegionHostMixin: (regionManager: IRegionManager, adapterRegistry: R
               R.then(R.bind(this.regionsCreated, this))
           )(regions)
         );
-       /* microTask.run(async () => {
-          R.pipe(
-            toRegionDefinitionArgs,
-            R.forEach(handleCreation),
-            R.bind(Promise.all, Promise),
-            R.then(R.reject(R.isNil)),
-            R.then(R.bind(this.regionsCreated, this))
-          )(regions);
-        });*/
       }
 
       regionsCreated(newRegions: IRegion[]) {
