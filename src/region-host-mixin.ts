@@ -74,11 +74,21 @@ export const RegionHostMixin: (regionManager: IRegionManager, adapterRegistry: R
 ) =>
   dedupingMixin((superClass: Constructor<LitElement>) => {
     class RegionHostMixinClass extends superClass implements RegionHostMixin {
+      private _lastCreation: Promise<any> = Promise.resolve(true);
       protected updated(_changedProperties: Map<PropertyKey, unknown>): void {
         super.updated(_changedProperties);
         let regions = getUxlRegions(this);
         const handleCreation = handleRegionCreation(this, regionManager1, adapterRegistry);
-        microTask.run(async () => {
+        this._lastCreation = this._lastCreation.then(() =>{
+          R.pipe(
+              toRegionDefinitionArgs,
+              R.forEach(handleCreation),
+              R.bind(Promise.all, Promise),
+              R.then(R.reject(R.isNil)),
+              R.then(R.bind(this.regionsCreated, this))
+          )(regions);
+        });
+       /* microTask.run(async () => {
           R.pipe(
             toRegionDefinitionArgs,
             R.forEach(handleCreation),
@@ -86,7 +96,7 @@ export const RegionHostMixin: (regionManager: IRegionManager, adapterRegistry: R
             R.then(R.reject(R.isNil)),
             R.then(R.bind(this.regionsCreated, this))
           )(regions);
-        });
+        });*/
       }
 
       regionsCreated(newRegions: IRegion[]) {
