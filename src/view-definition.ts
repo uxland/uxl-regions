@@ -16,4 +16,5 @@ export interface ViewComponent {
   viewKey: string;
   region: IRegion;
   active: boolean;
+  regionContext: any;
 }

@@ -51,7 +51,7 @@ const createRegion: (
         component[definitionArgs.key] = region;
         let behaviors = region.adapter ? region.adapter.behaviors || [] : [];
         return R.pipe(
-            R.map((b: IRegionBehavior) => b.attach),
+            R.map((b: IRegionBehavior) => b.attach()),
             R.bind(Promise.all, Promise),
             R.then(R.always(region))
         )(behaviors);

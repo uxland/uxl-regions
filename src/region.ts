@@ -84,6 +84,22 @@ export class Region implements IRegion {
     delete this.views[view as string];
   }
 
+  private _context: any;
+  public get context(){
+    return this._context;
+  }
+  public set context(ctx: any){
+    this._context = ctx;
+    Object.keys(this.views).forEach(vw =>{
+      let view = this.views[vw];
+      if(this.components.has(view)){
+        let element = this.components.get(view);
+        if(element)
+          element.regionContext = this._context;
+      }
+    })
+  }
+
   async activate(view: string | ViewDefinition) {
     let vw: ViewDefinition = view as ViewDefinition;
     if (typeof view === 'string') {
@@ -93,6 +109,7 @@ export class Region implements IRegion {
     if (!this.activeViews.some(v => v === vw)) {
       if (!this.components.has(vw)) {
         let element = await viewFactory(vw, this, typeof view === 'string' ? view : this.getKey(vw));
+        element.regionContext = this.context;
         this.components.set(vw, element);
       }
       let element = this.components.get(vw);

@@ -7,6 +7,8 @@ export interface IRegionView {
     active: boolean;
     activeChanged(current: boolean, previous: boolean);
     view: ViewDefinition;
+    regionContext: any;
+    regionContextChanged(current: any, previous: any);
 
 }
 export interface RegionViewConstructor extends LitElement{
@@ -23,6 +25,9 @@ export const regionView: RegionViewFunction = dedupingMixin((superClass: Constru
         active: boolean;
         activeChanged(current: boolean, previous: boolean){}
         view: ViewDefinition;
+        @property()
+        regionContext: any;
+        regionContextChanged(newContext: any, oldContext: any){}
     }
     return <any>RegionView;
 } );
