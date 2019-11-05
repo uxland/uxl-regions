@@ -1,6 +1,6 @@
 {
   "name": "@uxland/uxl-regions",
-  "version": "0.0.0-development",
+  "version": "3.3.5",
   "description": "UXLand Regions",
   "homepage": "https://github.com/uxland/uxl-regions#readme",
   "repository": {
@@ -59,7 +59,8 @@
     "dist": "npm run build",
     "travis-deploy-once": "travis-deploy-once",
     "readme:coverage": "node_modules/.bin/jest-badges-readme",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "semantic-release:local": "npm run dist && semantic-release --no-ci --debug"
   },
   "directories": {
     "test": "test"
