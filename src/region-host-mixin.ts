@@ -128,3 +128,4 @@ export const RegionHostMixin: (regionManager: IRegionManager, adapterRegistry: R
 regionAdapterRegistry.registerDefaultAdapterFactory(factory);
 
 export const RegionHost: RegionHostMixinFunction = RegionHostMixin(regionManager, regionAdapterRegistry);
+
