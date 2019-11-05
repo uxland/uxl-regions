@@ -5,10 +5,12 @@ describe('Given an instance of BehaviorRegistry class', () =>{
             let registry = new BehaviorRegistry();
             class MyBehavior implements IRegionBehavior{
                 constructor(region: IRegion){}
-                attach(): void {
+                attach(): Promise<void> {
+                    return Promise.resolve()
                 }
 
-                detach(): void {
+                detach() {
+                    return Promise.resolve()
                 }
 
             }
@@ -17,10 +19,12 @@ describe('Given an instance of BehaviorRegistry class', () =>{
             expect(registry.behaviors).toContain(MyBehavior);
             class MyOtherBehavior implements IRegionBehavior{
                 constructor(region: IRegion){}
-                attach(): void {
+                attach(): Promise<void> {
+                    return Promise.resolve()
                 }
 
-                detach(): void {
+                detach() {
+                    return Promise.resolve()
                 }
             }
             registry.register(MyOtherBehavior);
@@ -31,10 +35,12 @@ describe('Given an instance of BehaviorRegistry class', () =>{
             let registry = new BehaviorRegistry();
             class MyBehavior implements IRegionBehavior{
                 constructor(region: IRegion){}
-                attach(): void {
+                attach(): Promise<void> {
+                    return Promise.resolve()
                 }
 
-                detach(): void {
+                detach() {
+                    return Promise.resolve()
                 }
 
             }

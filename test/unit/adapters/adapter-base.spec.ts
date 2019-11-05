@@ -10,10 +10,12 @@ describe('Given an instance of AdapterBase class', () => {
             constructor(public region: IRegion) {
             }
 
-            attach(): void {
+            attach(): Promise<void> {
+                return Promise.resolve()
             }
 
-            detach(): void {
+            detach() {
+                return Promise.resolve()
             }
         }
 
@@ -21,10 +23,12 @@ describe('Given an instance of AdapterBase class', () => {
             constructor(public region: IRegion) {
             }
 
-            attach(): void {
+            attach(): Promise<void> {
+                return Promise.resolve()
             }
 
-            detach(): void {
+            detach() {
+                return Promise.resolve()
             }
         }
 
