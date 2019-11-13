@@ -1,6 +1,6 @@
 {
   "name": "@uxland/uxl-regions",
-  "version": "3.3.5",
+  "version": "3.3.7",
   "description": "UXLand Regions",
   "homepage": "https://github.com/uxland/uxl-regions#readme",
   "repository": {
@@ -40,7 +40,7 @@
     "typescript": "^3.3.3333"
   },
   "dependencies": {
-    "@uxland/uxl-utilities": "^3.0.3",
+    "@uxland/uxl-utilities": "^3.3.9",
     "lit-element": "^2.0.1",
     "tslib": "^1.9.3"
   },
