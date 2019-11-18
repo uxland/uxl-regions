@@ -10,18 +10,19 @@ export class SelectableAdapter extends SingleActiveAdapter{
         super(host);
         host[this.attrForSelectedProperty] = this.attrForSelected;
     }
-    activateView(view: HTMLElement & ViewComponent) {
-        super.activateView(view);
+    async activateView(view: HTMLElement & ViewComponent): Promise<any> {
+       await super.activateView(view);
         if(!view[this.attrForSelected])
             view[this.attrForSelected] = view.viewKey;
         this.host[this.selectedProperty] = view.viewKey;
+        return undefined;
     }
-    deactivateView(view: HTMLElement & ViewComponent){
+    async deactivateView(view: HTMLElement & ViewComponent): Promise<any>{
         if(this.host[this.selectedProperty] === view.viewKey){
             this.host[this.selectedProperty] = null;
-            super.deactivateView(view);
+            await super.deactivateView(view);
         }
-
+        return undefined;
     }
 }
 export const factory = (definition, target) => new SelectableAdapter(target);

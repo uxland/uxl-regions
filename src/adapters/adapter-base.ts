@@ -10,18 +10,20 @@ export class AdapterBase implements IRegionAdapter{
         return defaultBehaviorRegistry.behaviors.map(b => new b(this.host.uxlRegion));
     };
 
-    activateView(view: HTMLElement & ViewComponent) {
+    activateView(view: HTMLElement & ViewComponent): Promise<any> {
         if(!this.host.contains(view))
             this.addViewToHost(view);
         view.hidden = false;
+        return Promise.resolve(undefined);
     }
 
-    deactivateView(view: HTMLElement & ViewComponent) {
+    deactivateView(view: HTMLElement & ViewComponent): Promise<any> {
         if(view.view && view.view.removeFromDomWhenDeactivated){
             this.removeViewFromHost(view);
         }
         else
             view.hidden = true;
+        return  Promise.resolve(null);
     }
     
     removeView(view: HTMLElement & ViewComponent) {

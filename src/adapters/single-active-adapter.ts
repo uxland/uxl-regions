@@ -3,16 +3,18 @@ import {AdapterBase} from "./adapter-base";
 
 export class SingleActiveAdapter extends AdapterBase{
 
-    activateView(view: HTMLElement & ViewComponent) {
-        this.host.uxlRegion.currentActiveViews.filter(v => v !== view.view)
-            .forEach(v => this.host.uxlRegion.deactivate(v));
-        super.activateView(view);
+    async activateView(view: HTMLElement & ViewComponent): Promise<any> {
+        let activeViews = this.host.uxlRegion.currentActiveViews.filter(v => v !== view.view);
+        for(let v of activeViews)
+            await this.host.uxlRegion.deactivate(v);
+        return super.activateView(view);
     }
 
-    deactivateView(view: HTMLElement & ViewComponent) {
-        super.deactivateView(view);
+    async deactivateView(view: HTMLElement & ViewComponent): Promise<any> {
+        await super.deactivateView(view);
         let defaultView = this.host.uxlRegion.currentViews.find(v => v.isDefault);
-        defaultView && view.view !== defaultView && this.host.uxlRegion.activate(defaultView);
+        if(defaultView && view.view != defaultView && this.host.uxlRegion.currentActiveViews.length == 0)
+            await this.host.uxlRegion.activate(defaultView);
     }
 
     async viewAdded(view: ViewDefinition) {

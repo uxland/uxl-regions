@@ -13,8 +13,8 @@ export interface IRegionBehavior {
   detach(): Promise<void>;
 }
 export interface IRegionAdapter {
-  activateView(view: HTMLElement & ViewComponent);
-  deactivateView(view: HTMLElement & ViewComponent);
+  activateView(view: HTMLElement & ViewComponent): Promise<any>;
+  deactivateView(view: HTMLElement & ViewComponent): Promise<any>;
   removeView(view: HTMLElement & ViewComponent);
   viewAdded(view: ViewDefinition);
   behaviors: IRegionBehavior[];
@@ -40,7 +40,7 @@ export interface IRegion {
 
   activate(view: string | ViewDefinition): Promise<IRegion>;
 
-  deactivate(view: string | ViewDefinition): void;
+  deactivate(view: string | ViewDefinition): Promise<void>;
 
   getView(key: string): ViewDefinition;
 
@@ -50,7 +50,7 @@ export interface IRegion {
 
   isViewActive(view: string | ViewDefinition): boolean;
 
-  toggleViewActive(view: string | ViewDefinition): boolean;
+  toggleViewActive(view: string | ViewDefinition): Promise<boolean>;
 
   containsView(view: string | ViewDefinition): boolean;
 }
@@ -78,8 +78,8 @@ export class Region implements IRegion {
     return this;
   }
 
-  removeView(view: string) {
-    this.deactivate(view);
+  async removeView(view: string) {
+    await this.deactivate(view);
     this.remove(view);
     delete this.views[view as string];
   }
@@ -115,7 +115,7 @@ export class Region implements IRegion {
       let element = this.components.get(vw);
       this.activeViews.push(vw);
       element.active = true;
-      this.adapter.activateView(element);
+      await this.adapter.activateView(element);
     }
     return this;
   }
@@ -129,14 +129,14 @@ export class Region implements IRegion {
       this.adapter.removeView(component);
     }
   }
-  deactivate(view: string | ViewDefinition) {
+  async deactivate(view: string | ViewDefinition) {
     let v: ViewDefinition = typeof view === 'string' ? this.getView(view) : (view as ViewDefinition);
     let index = this.activeViews.indexOf(v);
     if (index !== -1) this.activeViews.splice(index, 1);
     let component = this.components.get(v);
     if (component) {
       component.active = false;
-      this.adapter.deactivateView(component);
+      await this.adapter.deactivateView(component);
     }
   }
 
@@ -166,13 +166,13 @@ export class Region implements IRegion {
     throw new Error(`region ${this.name} doest not contain this view`);
   }
 
-  toggleViewActive(view: string | ViewDefinition): boolean {
+  async toggleViewActive(view: string | ViewDefinition): Promise<boolean> {
     if (this.containsView(view)) {
       if (this.isViewActive(view)) {
-        this.deactivate(view);
+        await this.deactivate(view);
         return false;
       }
-      this.activate(view);
+      await this.activate(view);
       return true;
     }
     throw new Error(`region ${this.name} doest not contain this view`);

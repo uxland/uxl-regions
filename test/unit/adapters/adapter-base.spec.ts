@@ -44,12 +44,12 @@ describe('Given an instance of AdapterBase class', () => {
         expect((adapter.behaviors[1] as Behavior2).region).toBe(region);
     });
     describe('and a view is activated', () => {
-        it('should append view to host', () => {
+        it('should append view to host', async() => {
             let region = {activate: jest.fn(), deactivate: jest.fn(), currentActiveViews: []};
             let host = {appendChild: jest.fn(), contains: jest.fn(), uxlRegion: region};
             let adapter = new AdapterBase(<any>host);
             let view: any = document.createElement('div');
-            adapter.activateView(view);
+            await adapter.activateView(view);
             expect(host.appendChild).toBeCalledWith(view);
         });
         it('should not append view if already contained in host', () => {
