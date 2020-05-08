@@ -1,12 +1,12 @@
-import { IRegion, IRegionBehavior, RegionDefinition } from './region';
-import { regionsProperty } from './region-decorator';
-import { IRegionManager, regionManager } from './region-manager';
-import { regionFactory } from './region-factory';
-import { regionAdapterRegistry, RegionAdapterRegistry } from './region-adapter-registry';
-import { factory } from './adapters/multiple-active-adapter';
+import { AsyncQueue, dedupingMixin, MixinFunction } from '@uxland/uxl-utilities';
 import { Constructor, LitElement } from 'lit-element';
-import { MixinFunction, dedupingMixin, AsyncQueue } from '@uxland/uxl-utilities';
 import * as R from 'ramda';
+import { factory } from './adapters/multiple-active-adapter';
+import { IRegion, IRegionBehavior, RegionDefinition } from './region';
+import { regionAdapterRegistry, RegionAdapterRegistry } from './region-adapter-registry';
+import { regionsProperty } from './region-decorator';
+import { regionFactory } from './region-factory';
+import { IRegionManager, regionManager } from './region-manager';
 export interface IRegionHostMixin<T = any> extends LitElement {
   new(): IRegionHostMixin<T> & T & LitElement;
 }
@@ -36,8 +36,8 @@ const deleteRegion: (component: RegionHostMixin) => (definition: RegionDefinitio
   return R.pipe(
     R.map((b: IRegionBehavior) => b.detach),
     R.bind(Promise.all, Promise),
-    R.then(() => delete component[args.key]),
-    R.then(R.always(undefined))
+    R.andThen(() => delete component[args.key]),
+    R.andThen(R.always(undefined))
   )(behaviors);
 };
 const createRegion: (
@@ -53,7 +53,7 @@ const createRegion: (
         return R.pipe(
           R.map((b: IRegionBehavior) => b.attach()),
           R.bind(Promise.all, Promise),
-          R.then(R.always(region))
+          R.andThen(R.always(region))
         )(behaviors);
       }
       else return undefined;
@@ -98,8 +98,8 @@ export const RegionHostMixin: (regionManager: IRegionManager, adapterRegistry: R
           toRegionDefinitionArgs,
           R.forEach(handleCreation),
           R.bind(Promise.all, Promise),
-          R.then(R.reject(R.isNil)),
-          R.then(R.bind(this.regionsCreated, this))
+          R.andThen(R.reject(R.isNil)),
+          R.andThen(R.bind(this.regionsCreated, this))
         )(regions);
       }
       private create() {
