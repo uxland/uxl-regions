@@ -1,5 +1,5 @@
-import { Constructor } from "@uxland/utilities/dedupe-mixin";
 import {
+  Constructor,
   MixinFunction,
   dedupingMixin,
   propertiesObserver,

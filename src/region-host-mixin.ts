@@ -1,6 +1,6 @@
-import { Constructor } from "@uxland/utilities/dedupe-mixin";
 import {
   AsyncQueue,
+  Constructor,
   MixinFunction,
   dedupingMixin,
 } from "@uxland/uxl-utilities";

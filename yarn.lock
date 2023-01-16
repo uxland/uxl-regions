@@ -1317,26 +1317,12 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@uxland/ramda-extensions@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@uxland/ramda-extensions/-/ramda-extensions-1.0.1.tgz#1849ef494e8a05398e3a91293f7a1d89140cacc8"
-  integrity sha512-xWIUIIMNwktK/Fbf0DaYpQIeVQXTXypYxebX+wWyZzSNn0NNezzgMMQaPcsq+nkAv0HKlDpoGsFDSG5tWD+1QA==
+"@uxland/uxl-utilities@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@uxland/uxl-utilities/-/uxl-utilities-4.0.0.tgz#5a15d33708b7564fed9caab8ff81dfd99abae0ce"
+  integrity sha512-MJFcVLr8qH54en92LKKYLs+FFzTJaF5IqRVnz+QAL5kMybGE7nNcJx5GYibh65T1DhT0cdze90qbTSXw9isQzg==
   dependencies:
-    ramda "^0.27.1"
-
-"@uxland/utilities@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@uxland/utilities/-/utilities-1.0.1.tgz#df3103d40709a2bc17d4eb1c79fe70ccf4b81e8f"
-  integrity sha512-rass/dS+8z3Z0WI9arf0cdAUpBypHqC/YmlKBsguo6POFScnl1msZukF4M5T7GBycMygEu2m6r8ak9xeiU6NGw==
-  dependencies:
-    "@uxland/ramda-extensions" "^1.0.1"
-
-"@uxland/uxl-utilities@^3.3.9":
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/@uxland/uxl-utilities/-/uxl-utilities-3.5.1.tgz#119c710405a27f38ba60e1a15f2fb18d700e1d67"
-  integrity sha512-4LOYmbauAaVM3cnBqCRhMnM/SgAgLwBAkF73jl3/oQhgzZw35dBgobbt/XZSvPLeg0iJECX70DJzwtGgqu2Ebw==
-  dependencies:
-    lit-element "^2.0.1"
+    lit "^2.6.1"
     ramda "^0.27.0"
 
 JSONStream@^1.0.4, JSONStream@^1.3.4, JSONStream@^1.3.5:
@@ -4817,13 +4803,6 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
-lit-element@^2.0.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/lit-element/-/lit-element-2.3.1.tgz#73343b978fa1e73d60526c6bb6ad60f53a16c343"
-  integrity sha512-tOcUAmeO3BzwiQ7FGWdsshNvC0HVHcTFYw/TLIImmKwXYoV0E7zCBASa8IJ7DiP4cen/Yoj454gS0qqTnIGsFA==
-  dependencies:
-    lit-html "^1.1.1"
-
 lit-element@^3.2.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/lit-element/-/lit-element-3.2.2.tgz#d148ab6bf4c53a33f707a5168e087725499e5f2b"
@@ -4831,11 +4810,6 @@ lit-element@^3.2.0:
   dependencies:
     "@lit/reactive-element" "^1.3.0"
     lit-html "^2.2.0"
-
-lit-html@^1.1.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-1.2.1.tgz#1fb933dc1e2ddc095f60b8086277d4fcd9d62cc8"
-  integrity sha512-GSJHHXMGLZDzTRq59IUfL9FCdAlGfqNp/dEa7k7aBaaWD+JKaCjsAk9KYm2V12ItonVaYx2dprN66Zdm1AuBTQ==
 
 lit-html@^2.2.0, lit-html@^2.6.0:
   version "2.6.1"
@@ -6443,11 +6417,6 @@ ramda@^0.27.0:
   version "0.27.0"
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.27.0.tgz#915dc29865c0800bf3f69b8fd6c279898b59de43"
   integrity sha512-pVzZdDpWwWqEVVLshWUHjNwuVP7SfcmPraYuqocJp1yo2U1R7P+5QAfDhdItkuoGqIBnBYrtPp7rEPqDn9HlZA==
-
-ramda@^0.27.1:
-  version "0.27.2"
-  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.27.2.tgz#84463226f7f36dc33592f6f4ed6374c48306c3f1"
-  integrity sha512-SbiLPU40JuJniHexQSAgad32hfwd+DRUdwF2PlVuI5RZD0/vahUco7R8vD86J/tcEKKF9vZrUVwgtmGCqlCKyA==
 
 rc@^1.0.1, rc@^1.1.6, rc@^1.2.8:
   version "1.2.8"
