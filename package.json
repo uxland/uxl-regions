@@ -41,7 +41,8 @@
   },
   "dependencies": {
     "@uxland/uxl-utilities": "^3.3.9",
-    "lit-element": "^2.0.1",
+    "@uxland/utilities": "^1.0.1",
+    "lit": "^2.6.1",
     "ramda": "^0.27.0",
     "tslib": "^1.9.3"
   },
