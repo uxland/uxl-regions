@@ -1,12 +1,7 @@
-import {
-  Constructor,
-  MixinFunction,
-  dedupingMixin,
-  propertiesObserver,
-} from "@uxland/uxl-utilities";
-import { LitElement } from "lit";
-import { property } from "lit/decorators/property";
-import { ViewDefinition } from "./view-definition";
+import {Constructor, MixinFunction, dedupingMixin, propertiesObserver} from '@uxland/uxl-utilities';
+import {LitElement} from 'lit';
+import {property} from 'lit/decorators.js';
+import {ViewDefinition} from './view-definition';
 export interface IRegionView {
   active: boolean;
   activeChanged(current: boolean, previous: boolean);
@@ -24,11 +19,8 @@ export type RegionViewFunction = MixinFunction<RegionViewConstructor>;
 
 export const regionView: RegionViewFunction = dedupingMixin(
   (superClass: Constructor<LitElement | any>) => {
-    class RegionView
-      extends propertiesObserver(superClass)
-      implements IRegionView
-    {
-      @property({ type: Boolean })
+    class RegionView extends propertiesObserver(superClass) implements IRegionView {
+      @property({type: Boolean})
       active: boolean;
       activeChanged(current: boolean, previous: boolean) {}
       view: ViewDefinition;
