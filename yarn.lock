@@ -1317,10 +1317,10 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@uxland/uxl-utilities@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@uxland/uxl-utilities/-/uxl-utilities-4.0.0.tgz#5a15d33708b7564fed9caab8ff81dfd99abae0ce"
-  integrity sha512-MJFcVLr8qH54en92LKKYLs+FFzTJaF5IqRVnz+QAL5kMybGE7nNcJx5GYibh65T1DhT0cdze90qbTSXw9isQzg==
+"@uxland/uxl-utilities@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@uxland/uxl-utilities/-/uxl-utilities-4.0.1.tgz#6a9ab03ffe856aef37f549fe7380f91bbf8cde73"
+  integrity sha512-6JVtR1ZUhuWf8vo0sx1JTXCp0iySpoakfF+Jjk3EVVl+ItIZAZWl9XxDb1pVi3g170rfKV37AsQBNl82kONP8Q==
   dependencies:
     lit "^2.6.1"
     ramda "^0.27.0"

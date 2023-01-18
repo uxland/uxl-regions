@@ -40,7 +40,7 @@
     "typescript": "^3.3.3333"
   },
   "dependencies": {
-    "@uxland/uxl-utilities": "^4.0.0",
+    "@uxland/uxl-utilities": "^4.0.1",
     "lit": "^2.6.1",
     "ramda": "^0.27.0",
     "tslib": "^1.9.3"
